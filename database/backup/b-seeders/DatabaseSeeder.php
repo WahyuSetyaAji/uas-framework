@@ -18,10 +18,17 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
+        // User::factory(10)->create();
+
+        // User::factory()->create([
+        //     'name' => 'Test User',
+        //     'email' => 'test@example.com',
+        // ]);
+
          // User
-        User::create([
+        DB::table('user')->insert([
             'nama' => 'Admin Kece',
-            'email' => 'adminkece@example.com',
+            'email' => 'admin@example.com',
             'password' => Hash::make('12345678'),
             'role' => 'admin',
             'created_at' => Carbon::now(),
