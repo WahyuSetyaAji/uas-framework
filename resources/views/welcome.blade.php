@@ -1,4 +1,115 @@
 <!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bowo Jok - Spesialis Jok Kendaraan</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+    <style>
+        body { scroll-behavior: smooth; }
+        .navbar { background-color: #002b5c; }
+        .navbar-brand, .nav-link { color: white !important; }
+        .navbar-brand:hover, .nav-link:hover { color: #ff3b3b !important; }
+        .section-title { color: #002b5c; font-weight: 700; margin-bottom: 20px; }
+        .star { color: #ffc107; }
+
+        /* --- GALERI STYLE --- */
+        .gallery-item { position: relative; overflow: hidden; cursor: pointer; transition: transform 0.3s ease; }
+        .gallery-item img { width: 100%; border-radius: 8px; transition: transform 0.3s ease; }
+        .gallery-item:hover img { transform: scale(1.05); filter: brightness(70%); }
+        .gallery-item::after {
+            content: "\f00e";
+            font-family: "bootstrap-icons";
+            font-size: 3rem;
+            color: white;
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            opacity: 0;
+            transition: transform 0.3s ease, opacity 0.3s ease;
+        }
+        .gallery-item:hover::after {
+            transform: translate(-50%, -50%) scale(1);
+            opacity: 1;
+        }
+    </style>
+</head>
+<body>
+
+    {{-- Navbar --}}
+    <nav class="navbar navbar-expand-lg fixed-top shadow">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="{{ url('/') }}">Bowo Jok</a>
+            <button class="navbar-toggler bg-light" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="{{ url('/') }}">Beranda</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ route('produk.index') }}">Produk</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ url('/blog') }}">Blog</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ route('kontak.index') }}">Kontak</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    {{-- Hero Section --}}
+    <section class="py-5 text-center text-light" style="background: linear-gradient(90deg, #002b5c, #ff3b3b); margin-top: 56px;">
+        <div class="container py-5">
+            <h1 class="fw-bold">Selamat Datang di Bowo Jok</h1>
+            <p class="lead">Spesialis Jok Motor, dan Mobil — Nyaman, Kuat, dan Bergaya</p>
+            <a href="{{ route('produk.index') }}" class="btn btn-light fw-bold mt-3">Lihat Produk</a>
+        </div>
+    </section>
+
+    {{-- Profil + Galeri + Testimoni (Gabung jadi Beranda) --}}
+    <section class="py-5 bg-light">
+        <div class="container text-center">
+
+            {{-- Profil --}}
+            <h2 class="section-title">Tentang Bowo Jok</h2>
+            <p class="lead text-muted mb-5">
+                Bowo Jok telah melayani pelanggan dari seluruh Indonesia dengan hasil pengerjaan jok berkualitas tinggi.
+                Kami menggunakan bahan premium dan teknik modern untuk memberikan kenyamanan serta tampilan elegan
+                pada setiap kendaraan Anda.
+            </p>
+
+            {{-- Galeri --}}
+            <h2 class="section-title">Galeri Jok</h2>
+            <div class="row g-4 mb-5">
+                <div class="col-md-4"><div class="gallery-item" data-bs-toggle="modal" data-bs-target="#modalJok1"><img src="{{ asset('images/galeri/jok1.jpeg') }}" alt="Jok Motor Hitam"></div></div>
+                <div class="col-md-4"><div class="gallery-item" data-bs-toggle="modal" data-bs-target="#modalJok2"><img src="{{ asset('images/galeri/jok2.jpg') }}" alt="Jok Mobil Hitam"></div></div>
+                <div class="col-md-4"><div class="gallery-item" data-bs-toggle="modal" data-bs-target="#modalJok3"><img src="{{ asset('images/galeri/jok3.jpeg') }}" alt="Jok Custom Motor"></div></div>
+            </div>
+
+            {{-- Testimoni --}}
+            <h2 class="section-title">Testimoni Pelanggan</h2>
+            <div class="row justify-content-center g-4">
+                <div class="col-md-4"><div class="card shadow border-0"><div class="card-body"><h5 class="fw-bold">Rudi Hartono</h5><div><i class="bi bi-star-fill star"></i><i class="bi bi-star-fill star"></i><i class="bi bi-star-fill star"></i><i class="bi bi-star-fill star"></i><i class="bi bi-star-fill star"></i></div><p class="mt-3 text-muted">“Pelayanan cepat, hasil rapi banget! Jok motor saya jadi terlihat baru lagi.”</p></div></div></div>
+                <div class="col-md-4"><div class="card shadow border-0"><div class="card-body"><h5 class="fw-bold">Sinta Prameswari</h5><div><i class="bi bi-star-fill star"></i><i class="bi bi-star-fill star"></i><i class="bi bi-star-fill star"></i><i class="bi bi-star-fill star"></i><i class="bi bi-star-fill star"></i></div><p class="mt-3 text-muted">“Jok mobil keluarga kami jadi super nyaman, recommended banget!”</p></div></div></div>
+                <div class="col-md-4"><div class="card shadow border-0"><div class="card-body"><h5 class="fw-bold">Bagus Wahyu</h5><div><i class="bi bi-star-fill star"></i><i class="bi bi-star-fill star"></i><i class="bi bi-star-fill star"></i><i class="bi bi-star-fill star"></i><i class="bi bi-star-fill star"></i></div><p class="mt-3 text-muted">“Hasil sesuai pesanan dan harganya sangat bersahabat. Mantap Bowo Jok!”</p></div></div></div>
+            </div>
+
+        </div>
+    </section>
+
+    {{-- Modal Zoom Gambar --}}
+    <div class="modal fade" id="modalJok1" tabindex="-1" aria-hidden="true"><div class="modal-dialog modal-dialog-centered modal-lg"><img src="{{ asset('images/galeri/jok1.jpeg') }}" class="img-fluid rounded" alt=""></div></div>
+    <div class="modal fade" id="modalJok2" tabindex="-1" aria-hidden="true"><div class="modal-dialog modal-dialog-centered modal-lg"><img src="{{ asset('images/galeri/jok2.jpg') }}" class="img-fluid rounded" alt=""></div></div>
+    <div class="modal fade" id="modalJok3" tabindex="-1" aria-hidden="true"><div class="modal-dialog modal-dialog-centered modal-lg"><img src="{{ asset('images/galeri/jok3.jpeg') }}" class="img-fluid rounded" alt=""></div></div>
+
+    {{-- Footer --}}
+    <footer class="text-center py-3 bg-dark text-white">
+        <p class="mb-0">&copy; {{ date('Y') }} Bowo Jok. Semua Hak Dilindungi.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
+
+<!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
     <head>
         <meta charset="utf-8">

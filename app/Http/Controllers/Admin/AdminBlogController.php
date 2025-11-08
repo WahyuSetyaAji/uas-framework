@@ -4,62 +4,111 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\Blog;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Storage;
 
 class AdminBlogController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Tampilkan daftar semua postingan blog.
      */
     public function index()
     {
-        return "Admin: Menampilkan daftar semua postingan blog";
+        $blogs = Blog::latest()->paginate(10);
+        return view('admin.blog.index', compact('blogs'));
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Tampilkan form tambah postingan blog baru.
      */
     public function create()
     {
-        return "Admin: Menampilkan form tambah postingan blog baru";
+        return view('admin.blog.create');
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Simpan postingan blog baru ke database.
      */
     public function store(Request $request)
     {
-        return "Admin: Logika menyimpan postingan blog baru";
+        $request->validate([
+            'judul' => 'required|string|max:255',
+            'konten' => 'required',
+            'gambar' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+        ]);
+
+        $slug = Str::slug($request->judul, '-');
+        $gambarPath = null;
+
+        if ($request->hasFile('gambar')) {
+            $gambarPath = $request->file('gambar')->store('blog', 'public');
+        }
+
+        Blog::create([
+            'judul' => $request->judul,
+            'slug' => $slug,
+            'konten' => $request->konten,
+            'gambar' => $gambarPath,
+        ]);
+
+        return redirect()->route('admin.blog.index')->with('success', 'Postingan blog berhasil ditambahkan!');
     }
 
     /**
-     * Display the specified resource.
+     * Tampilkan form edit postingan.
      */
-    public function show(string $id)
+    public function edit($id)
     {
-        return "Admin: Menampilkan detail postingan blog ID: $id";
+        $blog = Blog::findOrFail($id);
+        return view('admin.blog.edit', compact('blog'));
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * Update postingan blog.
      */
-    public function edit(string $id)
+    public function update(Request $request, $id)
     {
-        return "Admin: Menampilkan form edit postingan blog ID: $id";
+        $blog = Blog::findOrFail($id);
+
+        $request->validate([
+            'judul' => 'required|string|max:255',
+            'konten' => 'required',
+            'gambar' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+        ]);
+
+        $slug = Str::slug($request->judul, '-');
+
+        if ($request->hasFile('gambar')) {
+            if ($blog->gambar) {
+                Storage::disk('public')->delete($blog->gambar);
+            }
+            $blog->gambar = $request->file('gambar')->store('blog', 'public');
+        }
+
+        $blog->update([
+            'judul' => $request->judul,
+            'slug' => $slug,
+            'konten' => $request->konten,
+            'gambar' => $blog->gambar,
+        ]);
+
+        return redirect()->route('admin.blog.index')->with('success', 'Postingan berhasil diperbarui!');
     }
 
     /**
-     * Update the specified resource in storage.
+     * Hapus postingan blog.
      */
-    public function update(Request $request, string $id)
+    public function destroy($id)
     {
-        return "Admin: Logika update postingan blog ID: $id";
-    }
+        $blog = Blog::findOrFail($id);
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        return "Admin: Logika hapus postingan blog ID: $id";
+        if ($blog->gambar) {
+            Storage::disk('public')->delete($blog->gambar);
+        }
+
+        $blog->delete();
+
+        return redirect()->route('admin.blog.index')->with('success', 'Postingan berhasil dihapus!');
     }
 }

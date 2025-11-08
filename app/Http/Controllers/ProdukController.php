@@ -3,62 +3,60 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Produk;
 
 class ProdukController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    public function index(Request $request)
     {
-        return "Ini adalah Halaman Galeri Produk (Daftar)";
+        $query = Produk::query();
+
+        // fitur search berdasarkan nama_produk dan deskripsi
+        if ($request->filled('search')) {
+            $search = $request->search;
+            $query->where('nama_produk', 'like', "%{$search}%")
+                  ->orWhere('deskripsi', 'like', "%{$search}%");
+        }
+
+        $produk = $query->paginate(9); // 9 produk per halaman
+        return view('produk.index', compact('produk'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
+    public function show($id)
+    {
+        $produk = Produk::findOrFail($id);
+        return view('produk.show', compact('produk'));
+    }
+
+    // ✅ tampilkan form tambah produk
     public function create()
     {
-        //
+        return view('produk.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
+    // ✅ simpan produk baru ke database + upload foto
     public function store(Request $request)
     {
-        //
-    }
+        $request->validate([
+            'nama_produk' => 'required|string|max:255',
+            'deskripsi' => 'nullable|string',
+            'harga' => 'required|numeric',
+            'gambar_produk' => 'required|image|mimes:jpeg,png,jpg|max:2048',
+        ]);
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        return "Ini adalah Halaman Detail Produk ID: $id";
-    }
+        // simpan gambar ke folder public/images/produk
+        $gambarName = time() . '.' . $request->gambar_produk->extension();
+        $request->gambar_produk->move(public_path('images/produk'), $gambarName);
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
+        // simpan ke database
+        Produk::create([
+            'nama_produk' => $request->nama_produk,
+            'deskripsi' => $request->deskripsi,
+            'harga' => $request->harga,
+            'gambar_produk' => $gambarName,
+            'tanggal_ditambahkan' => now(),
+        ]);
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
+        return redirect()->route('produk.index')->with('success', 'Produk berhasil ditambahkan!');
     }
 }
