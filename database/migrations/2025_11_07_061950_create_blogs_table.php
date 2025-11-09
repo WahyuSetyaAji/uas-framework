@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('judul');
             $table->string('slug')->unique();
             $table->text('konten');
-            $table->string('gambar')->nullable();
+            $table->unsignedTinyInteger('rating')->default(5)->after('komentar');
             $table->timestamps();
         });
     }
