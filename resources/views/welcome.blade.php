@@ -85,15 +85,46 @@
             </div>
 
             {{-- Testimoni --}}
-            <h2 class="section-title">Testimoni Pelanggan</h2>
-            <div class="row justify-content-center g-4">
-                <div class="col-md-4"><div class="card shadow border-0"><div class="card-body"><h5 class="fw-bold">Rudi Hartono</h5><div><i class="bi bi-star-fill star"></i><i class="bi bi-star-fill star"></i><i class="bi bi-star-fill star"></i><i class="bi bi-star-fill star"></i><i class="bi bi-star-fill star"></i></div><p class="mt-3 text-muted">“Pelayanan cepat, hasil rapi banget! Jok motor saya jadi terlihat baru lagi.”</p></div></div></div>
-                <div class="col-md-4"><div class="card shadow border-0"><div class="card-body"><h5 class="fw-bold">Sinta Prameswari</h5><div><i class="bi bi-star-fill star"></i><i class="bi bi-star-fill star"></i><i class="bi bi-star-fill star"></i><i class="bi bi-star-fill star"></i><i class="bi bi-star-fill star"></i></div><p class="mt-3 text-muted">“Jok mobil keluarga kami jadi super nyaman, recommended banget!”</p></div></div></div>
-                <div class="col-md-4"><div class="card shadow border-0"><div class="card-body"><h5 class="fw-bold">Bagus Wahyu</h5><div><i class="bi bi-star-fill star"></i><i class="bi bi-star-fill star"></i><i class="bi bi-star-fill star"></i><i class="bi bi-star-fill star"></i><i class="bi bi-star-fill star"></i></div><p class="mt-3 text-muted">“Hasil sesuai pesanan dan harganya sangat bersahabat. Mantap Bowo Jok!”</p></div></div></div>
-            </div>
+            <h2 class="section-title text-center">Testimoni Pelanggan</h2>
 
+            @if ($testimoni->isEmpty())
+                <p class="text-center text-muted mt-3">Belum ada testimoni.</p>
+            @else
+                <div class="row justify-content-center g-4 mt-4">
+            @foreach ($testimoni as $item)
+                <div class="col-md-4">
+                    <div class="card shadow border-0">
+                        <div class="card-body text-center">
+                            {{-- Nama pelanggan --}}
+<h5 class="fw-bold">{{ $item->nama_testimoni }}</h5>
+
+{{-- Rating bintang --}}
+<div class="mt-2 text-warning">
+    @for ($i = 1; $i <= 5; $i++)
+        @if ($i <= $item->rating)
+            <i class="bi bi-star-fill"></i>
+        @else
+            <i class="bi bi-star"></i>
+        @endif
+    @endfor
+</div>
+
+{{-- Isi komentar --}}
+<p class="mt-3 text-muted">“{{ $item->komentar }}”</p>
+
+{{-- Tanggal testimoni --}}
+<small class="text-secondary d-block">
+    {{ \Carbon\Carbon::parse($item->tanggal_testimoni)->translatedFormat('d F Y') }}
+</small>
+
+                        </div>
+                    </div>
+                </div>
+            @endforeach
         </div>
-    </section>
+        @endif
+        </div>
+        </section>
 
     {{-- Modal Zoom Gambar --}}
     <div class="modal fade" id="modalJok1" tabindex="-1" aria-hidden="true"><div class="modal-dialog modal-dialog-centered modal-lg"><img src="{{ asset('images/galeri/jok1.jpeg') }}" class="img-fluid rounded" alt=""></div></div>

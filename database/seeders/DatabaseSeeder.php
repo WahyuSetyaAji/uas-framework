@@ -38,11 +38,11 @@ class DatabaseSeeder extends Seeder
 
         // Testimoni
         DB::table('testimoni')->insert([
-            'nama_testimoni' => 'Siti Rahmawati',
-            'produk_id' => $produkId,
-            'komentar' => 'Hasil pemasangan sangat rapi dan kualitas joknya bagus.',
-            'gambar_testimoni' => 'uploads/testimoni/testi_siti.jpg',
-            'tanggal_testimoni' => Carbon::now()->toDateString(),
+        'nama_testimoni' => 'Siti Rahmawati',
+        'produk_id' => $produkId, // pastikan $produkId didefinisikan di atas, misalnya hasil insert produk
+        'komentar' => 'Hasil pemasangan sangat rapi dan kualitas joknya bagus.',
+        'rating' => 5, // 🔹 kolom baru menggantikan gambar_testimoni
+        'tanggal_testimoni' => Carbon::now()->toDateString(),
         ]);
 
         // Kontak

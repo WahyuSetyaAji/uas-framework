@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('nama_testimoni', 100);
             $table->unsignedBigInteger('produk_id')->nullable();
             $table->text('komentar');
-            $table->string('gambar_testimoni', 255)->nullable();
+            $table->unsignedTinyInteger('rating')->default(5);
             $table->date('tanggal_testimoni')->useCurrent();
             $table->foreign('produk_id')->references('id')->on('produk')->onDelete('set null');
         });
