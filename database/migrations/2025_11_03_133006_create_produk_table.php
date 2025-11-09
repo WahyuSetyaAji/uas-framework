@@ -17,6 +17,8 @@ return new class extends Migration
             $table->text('deskripsi');
             $table->decimal('harga', 12, 2);
             $table->string('gambar_produk', 255)->nullable();
+            $table->integer('stock')->default(0);
+            $table->enum('status', ['tersedia', 'tidak tersedia'])->default('tersedia');
             $table->date('tanggal_ditambahkan')->useCurrent();
         });
     }

@@ -41,9 +41,9 @@ Route::get('/blog/{slug}', [BlogController::class, 'show'])->name('blog.show');
 // ROUTE AUTH DAN PROFILE USER
 // =============================
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+// Route::get('/dashboard', function () {
+//     return view('dashboard');
+// })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -59,7 +59,7 @@ Route::middleware('auth')->group(function () {
 Route::middleware(['auth', 'verified'])->prefix('admin')->name('admin.')->group(function () {
 
     // Dashboard Admin
-    Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('dashboard');
+    Route::get('dashboard', [AdminDashboardController::class, 'index'])->name('dashboard');
 
     // CRUD Produk (lengkap: index, create, store, edit, update, destroy)
     Route::resource('produk', AdminProdukController::class);
@@ -70,7 +70,7 @@ Route::middleware(['auth', 'verified'])->prefix('admin')->name('admin.')->group(
     // Manajemen Order
     Route::get('order', [AdminOrderController::class, 'index'])->name('order.index');
     Route::get('order/{id}', [AdminOrderController::class, 'show'])->name('order.show');
-    Route::put('order/{id}', [AdminOrderController::class, 'update'])->name('order.update');
+    Route::delete('order/{id}', [AdminOrderController::class, 'destroy'])->name('order.destroy');
 
     // Kelola Kontak (edit & update info kontak)
     Route::get('kontak', [AdminKontakController::class, 'edit'])->name('kontak.edit');

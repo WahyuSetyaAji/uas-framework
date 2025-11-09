@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="text-xl font-semibold leading-tight text-gray-800">
-            {{ __('Kelola Blog') }}
+            {{ __('Kelola Produk') }}
         </h2>
     </x-slot>
 
@@ -15,9 +15,9 @@
                         :status="session('success')" />
 
                     <div class="flex items-center justify-between mb-5 bg-gray-50 border border-gray-200 rounded-lg shadow-sm px-4 py-3">
-                        <h2 class="text-2xl font-bold">Tabel Blog</h2>
-                        <a href="{{ route('admin.blog.create') }}" class="px-4 py-2 text-sm font-semibold text-white bg-green-600 rounded-md hover:bg-green-700">
-                            + Tambah Postingan Baru
+                        <h2 class="text-2xl font-bold">Tabel Produk</h2>
+                        <a href="{{ route('admin.produk.create') }}" class="px-4 py-2 text-sm font-semibold text-white bg-green-600 rounded-md hover:bg-green-700">
+                            + Tambah Produk
                         </a>
                     </div>
 
@@ -26,37 +26,50 @@
                             <thead class="bg-gray-50">
                                 <tr>
                                     <th class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-600 uppercase">#</th>
-                                    <th class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-600 uppercase">Judul</th>
+                                    <th class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-600 uppercase">Nama Produk</th>
+                                    <th class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-600 uppercase">Deskripsi</th>
+                                    <th class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-600 uppercase">Harga</th>
                                     <th class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-600 uppercase">Gambar</th>
-                                    <th class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-600 uppercase">Slug</th>
+                                    <th class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-600 uppercase">Stock</th>
+                                    <th class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-600 uppercase">Status</th>
+                                    <th class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-600 uppercase">Tanggal Ditambahkan</th>
                                     <th class="px-6 py-3 text-xs font-medium tracking-wider text-center text-gray-600 uppercase">Aksi</th>
                                 </tr>
                             </thead>
 
                             <tbody class="bg-white divide-y divide-gray-200">
-                                @forelse ($blogs as $index => $blog)
+                                @forelse ($data as $index => $item)
                                     <tr class="hover:bg-gray-50">
-                                        <td class="px-6 py-4 text-sm text-gray-700">{{ $index + $blogs->firstItem() }}</td>
-                                        <td class="px-6 py-4 text-sm text-gray-700">{{ $blog->judul }}</td>
+                                        <td class="px-6 py-4 text-sm text-gray-700">{{ $index + 1 }}</td>
+                                        <td class="px-6 py-4 text-sm text-gray-700">{{ $item->nama_produk }}</td>
+                                        <td class="px-6 py-4 text-sm text-gray-700">{{ $item->deskripsi }}</td>
+                                        <td class="px-6 py-4 text-sm text-gray-700">{{ $item->harga }}</td>
                                         <td class="px-6 py-4 text-sm text-gray-700">
-                                            @if($blog->gambar)
-                                                <img src="{{ asset('storage/' . $blog->gambar) }}"
-                                                    alt="{{ $blog->judul }}" class="w-16 h-16 object-cover rounded">
+                                            @if($item->gambar_produk)
+                                                <img src="{{ asset('uploads/produk/' . $item->gambar_produk) }}"
+                                                    alt="{{ $item->nama_produk }}" class="w-16 h-16 object-cover rounded">
                                             @else
                                                 -
                                             @endif
                                         </td>
-                                        <td class="px-6 py-4 text-sm text-gray-700">{{ $blog->slug }}</td>
+                                        <td class="px-6 py-4 text-sm text-gray-700">{{ $item->stock ?? '-' }}</td>
+                                        <td class="px-6 py-4 text-sm text-gray-700">
+                                            <span class="px-2 py-1 text-xs font-semibold rounded
+                                                {{ $item->status === 'tersedia' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800' }}">
+                                                {{ ucfirst($item->status) }}
+                                            </span>
+                                        </td>
+                                        <td class="px-6 py-4 text-sm text-gray-700">{{ $item->tanggal_ditambahkan }}</td>
                                         <td class="px-6 py-4 text-sm text-center">
                                             <div class="flex items-center justify-center space-x-2">
-                                                <a href="{{ route('admin.blog.edit', $blog->id) }}"
+                                                <a href="{{ route('admin.produk.edit', $item->id) }}"
                                                     class="px-3 py-1 text-sm font-medium text-white bg-blue-600 rounded-md hover:bg-blue-700">
                                                     Edit
                                                 </a>
 
                                                 <button type="button"
-                                                        class="px-3 py-1 text-sm font-medium text-white bg-red-600 rounded-md hover:bg-red-700"
-                                                        onclick="confirmDelete({{ $blog->id }}, '{{ route('admin.blog.destroy', $blog->id) }}')">
+                                                    class="px-3 py-1 text-sm font-medium text-white bg-red-600 rounded-md hover:bg-red-700"
+                                                    onclick="confirmDelete({{ $item->id }}, '{{ route('admin.produk.destroy', $item->id) }}')">
                                                     Hapus
                                                 </button>
                                             </div>
@@ -64,18 +77,13 @@
                                     </tr>
                                 @empty
                                     <tr>
-                                        <td colspan="5" class="px-6 py-4 text-sm text-center text-gray-500">
-                                            Belum ada postingan blog
+                                        <td colspan="7" class="px-6 py-4 text-sm text-center text-gray-500">
+                                            Tidak ada data
                                         </td>
                                     </tr>
                                 @endforelse
                             </tbody>
                         </table>
-                    </div>
-
-                    {{-- Pagination --}}
-                    <div class="mt-4">
-                        {{ $blogs->links() }}
                     </div>
 
                 </div>
@@ -85,7 +93,7 @@
 
     <script>
         function confirmDelete(id, deleteUrl) {
-            if (confirm('Apakah Anda yakin ingin menghapus postingan ini?')) {
+            if (confirm('Apakah Anda yakin ingin menghapus data ini?')) {
                 let form = document.createElement('form');
                 form.method = 'POST';
                 form.action = deleteUrl;

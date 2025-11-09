@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Models\Order;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+
 
 class AdminOrderController extends Controller
 {
@@ -12,7 +15,8 @@ class AdminOrderController extends Controller
      */
     public function index()
     {
-        return "Admin: Menampilkan daftar semua order/pesanan";
+        $orders = Order::with('produk')->orderBy('tanggal_order', 'desc')->paginate(10);
+        return view('admin.order.index', compact('orders'));
     }
 
     /**
@@ -36,7 +40,8 @@ class AdminOrderController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $order = Order::with('produk')->findOrFail($id);
+        return view('admin.order.detail', compact('order'));
     }
 
     /**
@@ -60,6 +65,12 @@ class AdminOrderController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $deleted = DB::table('order')->where('id', $id)->delete();
+
+        if ($deleted) {
+            return redirect()->route('admin.order.index')->with('success', 'Produk berhasil dihapus!');
+        } else {
+            return redirect()->route('admin.order.index')->with('error', 'Produk tidak ditemukan!');
+        }
     }
 }

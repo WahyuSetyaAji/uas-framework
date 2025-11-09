@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Models\Produk;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class AdminProdukController extends Controller
 {
@@ -12,7 +14,8 @@ class AdminProdukController extends Controller
      */
     public function index()
     {
-        return "Admin: Menampilkan daftar semua produk";
+        $data = produk::all();
+        return view('admin.produk.index', compact('data')); // , compact('data')
     }
 
     /**
@@ -20,7 +23,7 @@ class AdminProdukController extends Controller
      */
     public function create()
     {
-        return "Admin: Menampilkan form tambah produk baru";
+        return view('admin.produk.create');
     }
 
     /**
@@ -28,7 +31,29 @@ class AdminProdukController extends Controller
      */
     public function store(Request $request)
     {
-        return "Admin: Logika menyimpan produk baru";
+        // Validasi input data
+        $validasi_data = $request->validate([
+            'nama_produk' => 'required|string|max:100',
+            'deskripsi' => 'nullable|string',
+            'harga' => 'required|numeric|min:0',
+            'stock' => 'required|integer|min:0',
+            'status' => 'required|in:tersedia,tidak tersedia',
+            'gambar_produk' => 'nullable|image|mimes:jpg,jpeg,png,gif|max:2048',
+            'tanggal_ditambahkan' => 'required|date',
+        ]);
+
+         // Handle file upload
+        if ($request->hasFile('gambar_produk')) {
+            $file = $request->file('gambar_produk');
+            $filename = time() . '_' . $file->getClientOriginalName();
+            $file->move(public_path('uploads/produk'), $filename);
+            $validasi_data['gambar_produk'] = 'uploads/produk/' . $filename;
+        }
+
+        // Proses simpan data ke dalam database
+        produk::create($validasi_data);
+
+        return redirect()->route("admin.produk.index")->with('success', 'Product created successfully!');
     }
 
     /**
@@ -44,7 +69,8 @@ class AdminProdukController extends Controller
      */
     public function edit(string $id)
     {
-        return "Admin: Menampilkan form edit produk ID: $id";
+        $produk = Produk::findOrFail($id);
+        return view("admin.produk.edit", compact("produk"));
     }
 
     /**
@@ -52,7 +78,30 @@ class AdminProdukController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        return "Admin: Logika update produk ID: $id";
+        $request->validate([
+            'nama_produk' => 'required|string|max:100',
+            'deskripsi' => 'nullable|string',
+            'harga' => 'required|numeric|min:0',
+            'stock' => 'required|integer|min:0',
+            'status' => 'required|in:tersedia,tidak tersedia',
+            'gambar_produk' => 'nullable|image|mimes:jpg,jpeg,png,gif|max:2048',
+            'tanggal_ditambahkan' => 'required|date',
+        ]);
+
+        $produk = Produk::findOrFail($id);
+
+        $data = $request->only(['nama_produk', 'deskripsi', 'harga', 'stock', 'status']);
+
+        if ($request->hasFile('gambar_produk')) {
+            $file = $request->file('gambar_produk');
+            $filename = time() . '_' . $file->getClientOriginalName();
+            $file->move(public_path('uploads/produk'), $filename);
+            $data['gambar_produk'] = 'uploads/produk/' . $filename;
+        }
+
+        $produk->update($data);
+
+        return redirect()->route("admin.produk.index")->with('success', 'Produk berhasil diperbarui!');
     }
 
     /**
@@ -60,6 +109,12 @@ class AdminProdukController extends Controller
      */
     public function destroy(string $id)
     {
-        return "Admin: Logika hapus produk ID: $id";
+        $deleted = DB::table('produk')->where('id', $id)->delete();
+
+        if ($deleted) {
+            return redirect()->route('admin.produk.index')->with('success', 'Produk berhasil dihapus!');
+        } else {
+            return redirect()->route('admin.produk.index')->with('error', 'Produk tidak ditemukan!');
+        }
     }
 }

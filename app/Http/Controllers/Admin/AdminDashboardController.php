@@ -12,7 +12,7 @@ class AdminDashboardController extends Controller
      */
     public function index()
     {
-        return "Ini adalah Halaman Dashboard Admin";
+        return view('admin.dashboard');
     }
 
     /**

@@ -32,7 +32,9 @@ class DatabaseSeeder extends Seeder
             'nama_produk' => 'Jok Motor',
             'deskripsi' => 'Jok style klasik yang membara, bakarr!!.',
             'harga' => 3500000.00,
-            'gambar_produk' => 'exAssets/gambar/jok_membara.jpg',
+            'gambar_produk' => 'uploads/gambar/jok_membara.jpg',
+            'stock' => 5,
+            'status' => 'tersedia',
             'tanggal_ditambahkan' => Carbon::now()->toDateString(),
         ]);
 
@@ -59,11 +61,9 @@ class DatabaseSeeder extends Seeder
             'produk_id' => $produkId,
             'jenis_order' => 'paten',
             'catatan_custom' => null,
-            'stock' => 2,
             'tanggal_order' => Carbon::now()->toDateString(),
             'tanggal_booking' => Carbon::now()->addDays(5)->toDateString(),
             'jam_booking' => '09:30:00',
-            'status' => 'tersedia',
         ]);
     }
 }
