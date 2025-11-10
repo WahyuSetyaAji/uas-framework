@@ -1,47 +1,37 @@
 @extends('layouts.app')
 
+@section('title', $produk->nama_produk)
+
 @section('content')
-<div class="container mt-4">
-    <h2>Daftar Produk</h2>
+<div class="max-w-6xl mx-auto px-4 py-10">
+    <h2 class="text-3xl font-bold text-blue-900 mb-6">Detail Produk</h2>
 
-    @if(session('success'))
-        <div class="alert alert-success">{{ session('success') }}</div>
-    @endif
+    <div class="bg-white shadow-lg rounded-2xl p-6 flex flex-col md:flex-row gap-6">
+        <!-- Gambar Produk -->
+        <div class="md:w-1/3 flex-shrink-0">
+            <img src="{{ asset($produk->gambar_produk) }}"
+                 alt="{{ $produk->nama_produk }}"
+                 class="w-full h-64 object-cover rounded-xl">
+        </div>
 
-    <a href="{{ route('admin.produk.create') }}" class="btn btn-primary mb-3">+ Tambah Produk</a>
+        <!-- Info Produk -->
+        <div class="md:w-2/3 flex flex-col justify-between">
+            <div>
+                <h3 class="text-2xl font-semibold mb-2">{{ $produk->nama_produk }}</h3>
+                <p class="text-xl text-gray-700 mb-4">Rp {{ number_format($produk->harga, 0, ',', '.') }}</p>
+                <p class="text-gray-800 mb-4">{{ $produk->deskripsi }}</p>
+                <p class="mb-1"><span class="font-semibold">Stok:</span> {{ $produk->stock }}</p>
+                <p class="mb-4"><span class="font-semibold">Status:</span> {{ ucfirst($produk->status) }}</p>
+            </div>
 
-    <table class="table table-bordered">
-        <thead>
-            <tr>
-                <th>No</th>
-                <th>Gambar</th>
-                <th>Nama Produk</th>
-                <th>Harga</th>
-                <th>Deskripsi</th>
-                <th>Aksi</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach($produk as $p)
-            <tr>
-                <td>{{ $loop->iteration }}</td>
-                <td><img src="{{ asset('images/produk/' . $p->gambar_produk) }}" alt="gambar" width="80"></td>
-                <td>{{ $p->nama_produk }}</td>
-                <td>Rp {{ number_format($p->harga, 0, ',', '.') }}</td>
-                <td>{{ $p->deskripsi }}</td>
-                <td>
-                    <a href="{{ route('admin.produk.edit', $p->id) }}" class="btn btn-warning btn-sm">Edit</a>
-                    <form action="{{ route('admin.produk.destroy', $p->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Yakin hapus produk ini?')">
-                        @csrf
-                        @method('DELETE')
-                        <button class="btn btn-danger btn-sm">Hapus</button>
-                    </form>
-                </td>
-            </tr>
-            @endforeach
-        </tbody>
-    </table>
-
-    {{ $produk->links() }}
+            <!-- Tombol Kembali -->
+            <div>
+                <a href="{{ route('produk.index') }}"
+                   class="inline-block bg-gray-300 hover:bg-gray-400 text-gray-800 font-semibold px-6 py-3 rounded-lg transition">
+                    Kembali
+                </a>
+            </div>
+        </div>
+    </div>
 </div>
 @endsection
