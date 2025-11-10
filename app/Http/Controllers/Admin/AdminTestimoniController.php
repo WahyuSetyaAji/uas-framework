@@ -1,65 +1,86 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\Admin; // <- tambahkan .Admin di sini!
 
-use App\Http\Controllers\Controller;
+use App\Http\Controllers\Controller; // <- tambahkan ini juga
+use App\Models\Testimoni;
 use Illuminate\Http\Request;
 
 class AdminTestimoniController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Tampilkan semua testimoni.
      */
     public function index()
     {
-        return "Admin: Menampilkan daftar semua testimoni";
+        $data = Testimoni::all();
+        return view('admin.testimoni.index', compact('data'));
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Tampilkan form untuk tambah testimoni baru.
      */
     public function create()
     {
-        return "Admin: Menampilkan form tambah testimoni baru";
+        return view('admin.testimoni.create');
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Simpan testimoni baru ke database.
      */
     public function store(Request $request)
     {
-        return "Admin: Logika menyimpan testimoni baru";
+        $request->validate([
+            'nama_testimoni' => 'required|max:100',
+            'komentar' => 'required',
+            'rating' => 'required|integer|min:1|max:5',
+        ]);
+
+        Testimoni::create($request->all());
+
+        return redirect()
+            ->route('admin.testimoni.index')
+            ->with('success', 'Testimoni berhasil ditambahkan.');
     }
 
     /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        return "Admin: Menampilkan detail testimoni ID: $id";
-    }
-
-    /**
-     * Show the form for editing the specified resource.
+     * Tampilkan form edit untuk testimoni tertentu.
      */
     public function edit(string $id)
     {
-        return "Admin: Menampilkan form edit testimoni ID: $id";
+        $testimoni = Testimoni::findOrFail($id);
+        return view('admin.testimoni.edit', compact('testimoni'));
     }
 
     /**
-     * Update the specified resource in storage.
+     * Update data testimoni di database.
      */
     public function update(Request $request, string $id)
     {
-        return "Admin: Logika update testimoni ID: $id";
+        $request->validate([
+            'nama_testimoni' => 'required|max:100',
+            'komentar' => 'required',
+            'rating' => 'required|integer|min:1|max:5',
+        ]);
+
+        $testimoni = Testimoni::findOrFail($id);
+        $testimoni->update($request->all());
+
+        return redirect()
+            ->route('admin.testimoni.index')
+            ->with('success', 'Testimoni berhasil diperbarui.');
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Hapus testimoni dari database.
      */
     public function destroy(string $id)
     {
-        return "Admin: Logika hapus testimoni ID: $id";
+        $testimoni = Testimoni::findOrFail($id);
+        $testimoni->delete();
+
+        return redirect()
+            ->route('admin.testimoni.index')
+            ->with('success', 'Testimoni berhasil dihapus.');
     }
 }
