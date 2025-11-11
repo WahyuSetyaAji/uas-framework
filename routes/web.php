@@ -73,8 +73,7 @@ Route::middleware(['auth', 'verified'])->prefix('admin')->name('admin.')->group(
     Route::delete('order/{id}', [AdminOrderController::class, 'destroy'])->name('order.destroy');
 
     // Kelola Kontak (edit & update info kontak)
-    Route::get('kontak', [AdminKontakController::class, 'edit'])->name('kontak.edit');
-    Route::put('kontak', [AdminKontakController::class, 'update'])->name('kontak.update');
+    Route::resource('kontak', AdminKontakController::class);
 
     // CRUD Blog
     Route::resource('blog', AdminBlogController::class);

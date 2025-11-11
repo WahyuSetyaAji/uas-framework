@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Admin; // <- tambahkan .Admin di sini!
 use App\Http\Controllers\Controller; // <- tambahkan ini juga
 use App\Models\Testimoni;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+
 
 class AdminTestimoniController extends Controller
 {

@@ -13,9 +13,11 @@ return new class extends Migration
     {
         Schema::create('kontak', function (Blueprint $table) {
             $table->id();
+            $table->string('nama', 100);
             $table->string('email_kontak', 100);
             $table->text('alamat');
             $table->string('no_kontak', 20);
+            $table->enum('tipe', ['cs', 'order'])->default('cs');
         });
     }
 

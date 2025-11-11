@@ -45,6 +45,13 @@
                         {{ __('Testimoni') }}
                     </x-nav-link>
                 </div>
+                {{-- Kontak --}}
+                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                    <x-nav-link :href="route('admin.kontak.index')"
+                    :active="request()->routeIs(['admin.kontak.index','admin.kontak.create','admin.kontak.edit'])">
+                        {{ __('Kontak') }}
+                    </x-nav-link>
+                </div>
             </div>
 
             <!-- Settings Dropdown -->

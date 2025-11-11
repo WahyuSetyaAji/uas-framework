@@ -49,9 +49,11 @@ class DatabaseSeeder extends Seeder
 
         // Kontak
         DB::table('kontak')->insert([
+            'nama' => 'Admin1',
             'email_kontak' => 'bowojokexample.com',
-            'alamat' => 'Jl. example',
+            'alamat' => 'Jl. Example',
             'no_kontak' => '081234567890',
+            'tipe' => 'cs',
         ]);
 
         // Order
