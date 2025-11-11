@@ -96,35 +96,35 @@
                     <div class="card shadow border-0">
                         <div class="card-body text-center">
                             {{-- Nama pelanggan --}}
-<h5 class="fw-bold">{{ $item->nama_testimoni }}</h5>
+                        <h5 class="fw-bold">{{ $item->nama_testimoni }}</h5>
 
-{{-- Rating bintang --}}
-<div class="mt-2 text-warning">
-    @for ($i = 1; $i <= 5; $i++)
-        @if ($i <= $item->rating)
-            <i class="bi bi-star-fill"></i>
-        @else
-            <i class="bi bi-star"></i>
-        @endif
-    @endfor
-</div>
+                        {{-- Rating bintang --}}
+                        <div class="mt-2 text-warning">
+                            @for ($i = 1; $i <= 5; $i++)
+                                @if ($i <= $item->rating)
+                                    <i class="bi bi-star-fill"></i>
+                                @else
+                                    <i class="bi bi-star"></i>
+                                @endif
+                            @endfor
+                        </div>
 
-{{-- Isi komentar --}}
-<p class="mt-3 text-muted">“{{ $item->komentar }}”</p>
+                        {{-- Isi komentar --}}
+                        <p class="mt-3 text-muted">“{{ $item->komentar }}”</p>
 
-{{-- Tanggal testimoni --}}
-<small class="text-secondary d-block">
-    {{ \Carbon\Carbon::parse($item->tanggal_testimoni)->translatedFormat('d F Y') }}
-</small>
+                        {{-- Tanggal testimoni --}}
+                        <small class="text-secondary d-block">
+                            {{ \Carbon\Carbon::parse($item->tanggal_testimoni)->translatedFormat('d F Y') }}
+                        </small>
 
                         </div>
                     </div>
                 </div>
-            @endforeach
+                @endforeach
+                </div>
+            @endif
         </div>
-        @endif
-        </div>
-        </section>
+    </section>
 
     {{-- Modal Zoom Gambar --}}
     <div class="modal fade" id="modalJok1" tabindex="-1" aria-hidden="true"><div class="modal-dialog modal-dialog-centered modal-lg"><img src="{{ asset('images/galeri/jok1.jpeg') }}" class="img-fluid rounded" alt=""></div></div>

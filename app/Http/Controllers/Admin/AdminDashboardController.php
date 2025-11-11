@@ -4,6 +4,9 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\Produk;
+use App\Models\Testimoni;
+use App\Models\Blog;
 
 class AdminDashboardController extends Controller
 {
@@ -12,7 +15,35 @@ class AdminDashboardController extends Controller
      */
     public function index()
     {
-        return view('admin.dashboard');
+        // Hitung total data
+        $totalProduk = Produk::count();
+        $totalTestimoni = Testimoni::count();
+        $totalBlog = Blog::count(); // hapus kalau nggak ada
+
+        // Ambil data terbaru (5 item terakhir)
+        $testimoniTerbaru = Testimoni::with('produk')
+            ->latest('tanggal_testimoni')
+            ->take(5)
+            ->get();
+
+        $blogTerbaru = Blog::latest('created_at')
+            ->take(5)
+            ->get();
+
+        // Produk Populer berdasarkan jumlah testimoni terbanyak
+        $produkPopuler = Produk::withCount('testimoni') // hitung jumlah testimoni
+            ->orderByDesc('testimoni_count') // urut dari terbanyak
+            ->take(5)
+            ->get();
+
+        return view('admin.dashboard', compact(
+            'totalProduk',
+            'totalTestimoni',
+            'totalBlog',
+            'testimoniTerbaru',
+            'blogTerbaru',
+            'produkPopuler'
+        ));
     }
 
     /**

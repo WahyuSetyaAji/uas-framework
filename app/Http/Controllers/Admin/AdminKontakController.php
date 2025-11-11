@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\Kontak;
+use Illuminate\Support\Facades\DB;
 
 class AdminKontakController extends Controller
 {
@@ -12,7 +14,8 @@ class AdminKontakController extends Controller
      */
     public function index()
     {
-        return "Admin: Menampilkan form edit info kontak (alamat, no. telp, dll)";
+        $kontak = Kontak::orderBy('id', 'asc')->paginate(5);
+        return view('admin.kontak.index', compact('kontak'));
     }
 
     /**
@@ -20,7 +23,7 @@ class AdminKontakController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.kontak.create');
     }
 
     /**
@@ -28,7 +31,19 @@ class AdminKontakController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // Validasi input data
+        $validasi_data = $request->validate([
+            'nama' => 'required|string|max:100',
+            'email_kontak' => 'required|email|max:100',
+            'alamat' => 'required|string',
+            'no_kontak' => 'required|string|max:20',
+            'tipe' => 'required|in:cs,order',
+        ]);
+
+        // Simpan data ke database
+        Kontak::create($validasi_data);
+
+        return redirect()->route('admin.kontak.index')->with('success', 'Kontak berhasil ditambahkan!');
     }
 
     /**
@@ -44,7 +59,8 @@ class AdminKontakController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $kontak = Kontak::findOrFail($id);
+        return view('admin.kontak.edit', compact('kontak'));
     }
 
     /**
@@ -52,7 +68,20 @@ class AdminKontakController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        return "Admin: Logika update info kontak";
+        $request->validate([
+            'nama' => 'required|string|max:100',
+            'email_kontak' => 'required|email|max:100',
+            'alamat' => 'required|string',
+            'no_kontak' => 'required|string|max:20',
+            'tipe' => 'required|in:cs,order',
+        ]);
+
+        $kontak = Kontak::findOrFail($id);
+
+        $data = $request->only(['nama', 'email_kontak', 'alamat', 'no_kontak', 'tipe']);
+        $kontak->update($data);
+
+        return redirect()->route('admin.kontak.index')->with('success', 'Kontak berhasil diperbarui!');
     }
 
     /**
@@ -60,6 +89,12 @@ class AdminKontakController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $deleted = DB::table('kontak')->where('id', $id)->delete();
+
+        if ($deleted) {
+            return redirect()->route('admin.kontak.index')->with('success', 'Kontak berhasil dihapus!');
+        } else {
+            return redirect()->route('admin.kontak.index')->with('error', 'Kontak tidak ditemukan!');
+        }
     }
 }

@@ -5,16 +5,18 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Blog extends Model
+class Kontak extends Model
 {
     use HasFactory;
 
-    protected $table = 'blogs';
+    protected $table = 'kontak';
+    public $timestamps = false;
 
     protected $fillable = [
-        'judul',
-        'slug',
-        'konten',
-        'gambar',
+        'nama',
+        'email_kontak',
+        'alamat',
+        'no_kontak',
+        'tipe',
     ];
 }
