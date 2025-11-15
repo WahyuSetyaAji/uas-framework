@@ -21,4 +21,9 @@ class Produk extends Model
         'status',
         'tanggal_ditambahkan',
     ];
+
+    public function testimoni()
+{
+    return $this->hasMany(Testimoni::class, 'produk_id');
+}
 }

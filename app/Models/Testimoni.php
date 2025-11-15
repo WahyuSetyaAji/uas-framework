@@ -6,9 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class Testimoni extends Model
 {
-    protected $table = 'testimoni'; 
+    protected $table = 'testimoni';
     protected $primaryKey = 'id';
-    public $timestamps = false; 
+    public $timestamps = false;
 
     protected $fillable = [
         'nama_testimoni',
@@ -17,4 +17,9 @@ class Testimoni extends Model
         'rating',
         'tanggal_testimoni',
     ];
+
+    public function produk()
+    {
+        return $this->belongsTo(Produk::class, 'produk_id');
+    }
 }

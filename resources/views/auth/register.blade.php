@@ -1,4 +1,4 @@
-<x-guest-layout>
+<x-admin-guest-layout>
     <div class="flex justify-center items-center min-h-screen bg-gray-100">
         <div class="p-8 bg-white rounded-2xl shadow-xl w-96">
             <h2 class="text-2xl font-bold text-gray-800 text-center mb-1">Buat Akun Baru</h2>
@@ -51,4 +51,4 @@
             </form>
         </div>
     </div>
-</x-guest-layout>
+</x-admin-guest-layout>
