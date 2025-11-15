@@ -1,4 +1,4 @@
-<x-app-layout>
+<x-admin-app-layout>
     <x-slot name="header">
         <h2 class="text-xl font-semibold leading-tight text-gray-800">
             {{ __('Tambah Postingan Blog Baru') }}
@@ -7,7 +7,7 @@
 
     <div class="py-12">
         <div class="mx-auto max-w-7xl sm:px-6 lg:px-8">
-            <div class="bg-white shadow-sm sm:rounded-lg p-6">
+            <div class="p-6 bg-white shadow-sm sm:rounded-lg">
 
                 <form action="{{ route('admin.blog.store') }}" method="POST" enctype="multipart/form-data">
                     @csrf
@@ -23,12 +23,15 @@
                         @enderror
                     </div>
 
-                    {{-- Konten --}}
+                    {{-- Konten (Trix Editor) --}}
                     <div class="mb-4">
-                        <label for="konten" class="block mb-2 text-sm font-medium text-gray-700">Konten</label>
-                        <textarea name="konten" id="konten" rows="6"
-                                class="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                required>{{ old('konten') }}</textarea>
+                        <label for="x_konten" class="block mb-2 text-sm font-medium text-gray-700">Konten</label>
+                        {{-- Input tersembunyi yang akan menyimpan data konten --}}
+                        <input id="x_konten" type="hidden" name="konten" value="{{ old('konten') }}">
+                        {{-- Trix Editor yang terikat ke input tersembunyi di atas --}}
+                        <trix-editor input="x_konten" 
+                                     class="block w-full border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 min-h-[300px]">
+                        </trix-editor>
                         @error('konten')
                             <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                         @enderror
@@ -61,4 +64,4 @@
             </div>
         </div>
     </div>
-</x-app-layout>
+</x-admin-app-layout>
