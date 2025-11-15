@@ -1,4 +1,4 @@
-<x-admin-app-layout>
+<x-app-layout>
     <x-slot name="header">
         <h2 class="text-xl font-semibold leading-tight text-gray-800">
             {{ __('Edit Postingan Blog') }}
