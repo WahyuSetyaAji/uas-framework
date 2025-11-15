@@ -1,22 +1,40 @@
 <x-guest-layout>
     <div class="w-full">
         <div class="mb-4">
-            <a href="{{ route('blog.index') }}" class="text-sm text-blue-600 hover:underline">&larr; Kembali ke Daftar Blog</a>
+            {{-- Tombol kembali --}}
+            <a href="{{ route('blog.index') }}" class="text-base font-medium text-gray-600 transition duration-150 hover:text-blue-600">
+                &larr; Kembali ke Daftar Blog
+            </a>
         </div>
 
-        <article class="rounded-lg bg-white p-6 shadow-md sm:p-8">
-            <h1 class="mb-4 text-3xl font-bold text-gray-900">{{ $blog->judul }}</h1>
-
-            <div class="mb-6 border-b pb-4 text-sm text-gray-500">
-                Diposting pada {{ $blog->created_at->format('d M Y, H:i') }}
-            </div>
-
+        <article class="overflow-hidden bg-white shadow-xl rounded-2xl">
+            
+            {{-- Hero Section (Gambar Besar) --}}
             @if ($blog->gambar)
-                <img src="{{ asset('storage/' . $blog->gambar) }}" alt="{{ $blog->judul }}" class="mb-8 h-auto w-full rounded-lg object-cover shadow-lg" style="max-height: 400px;">
+                <div class="relative w-full h-96">
+                    <img src="{{ asset('storage/' . $blog->gambar) }}" alt="{{ $blog->judul }}" 
+                         class="object-cover w-full h-full">
+                    {{-- Efek overlay untuk judul --}}
+                    <div class="absolute inset-0 bg-black bg-opacity-40"></div>
+                </div>
             @endif
 
-            <div class="prose max-w-none">
-                {!! $blog->konten !!}
+            <div class="p-6 sm:p-10 lg:p-16">
+                
+                {{-- Judul dan Metadata --}}
+                <header class="pb-6 mb-8 border-b">
+                    <h1 class="text-4xl font-extrabold leading-tight text-gray-900 sm:text-5xl">
+                        {{ $blog->judul }}
+                    </h1>
+                    <div class="flex items-center mt-3 space-x-2 text-base text-gray-500">
+                        <span>Diposting pada **{{ $blog->created_at->format('d F Y') }}**</span>
+                    </div>
+                </header>
+
+                {{-- Konten Blog --}}
+                <div class="prose prose-lg text-gray-800 max-w-none"> {{-- Prose class membuat styling dasar untuk konten HTML --}}
+                    {!! $blog->konten !!}
+                </div>
             </div>
         </article>
     </div>
