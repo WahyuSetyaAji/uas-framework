@@ -11,6 +11,39 @@ use Illuminate\Support\Facades\Storage;
 class AdminBlogController extends Controller
 {
     /**
+     * Metode pembantu untuk menghasilkan slug yang unik.
+     */
+    private function generateUniqueSlug(string $title, int $ignoreId = null): string
+    {
+        $slug = Str::slug($title, '-');
+        $originalSlug = $slug;
+        $count = 1;
+
+        // Buat query dasar untuk memeriksa slug yang ada
+        $query = Blog::where('slug', $slug);
+
+        // Kecualikan ID saat melakukan update
+        if ($ignoreId) {
+            $query->where('id', '!=', $ignoreId);
+        }
+
+        // Loop hingga slug unik ditemukan
+        while ($query->exists()) {
+            $slug = $originalSlug . '-' . $count;
+
+            // Perbarui query untuk memeriksa slug baru
+            $query = Blog::where('slug', $slug);
+            if ($ignoreId) {
+                $query->where('id', '!=', $ignoreId);
+            }
+
+            $count++;
+        }
+
+        return $slug;
+    }
+
+    /**
      * Tampilkan daftar semua postingan blog.
      */
     public function index()
@@ -33,12 +66,14 @@ class AdminBlogController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'judul' => 'required|string|max:255',
+            'judul' => 'required|string|max:255|unique:blogs,judul', // Menambahkan unique:blogs,judul (Opsional)
             'konten' => 'required',
             'gambar' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
         ]);
 
-        $slug = Str::slug($request->judul, '-');
+        // Gunakan metode pembantu untuk menghasilkan slug unik
+        $slug = $this->generateUniqueSlug($request->judul);
+
         $gambarPath = null;
 
         if ($request->hasFile('gambar')) {
@@ -72,12 +107,13 @@ class AdminBlogController extends Controller
         $blog = Blog::findOrFail($id);
 
         $request->validate([
-            'judul' => 'required|string|max:255',
+            'judul' => 'required|string|max:255|unique:blogs,judul,' . $id, // Menambahkan unique:blogs,judul (Opsional)
             'konten' => 'required',
             'gambar' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
         ]);
 
-        $slug = Str::slug($request->judul, '-');
+        // Gunakan metode pembantu, dengan mengecualikan ID blog saat ini
+        $slug = $this->generateUniqueSlug($request->judul, $blog->id);
 
         if ($request->hasFile('gambar')) {
             if ($blog->gambar) {
