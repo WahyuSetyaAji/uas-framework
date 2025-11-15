@@ -71,4 +71,4 @@
             </div>
         </div>
     </div>
-</x-admin-app-layout>
+</x-app-layout>
