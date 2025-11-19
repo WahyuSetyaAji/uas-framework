@@ -1,7 +1,7 @@
 <x-admin-app-layout>
     <x-slot name="header">
         <h2 class="text-xl font-semibold leading-tight text-gray-800">
-            {{ __('Kelola Produk') }}
+            {{ __('Produk') }}
         </h2>
     </x-slot>
 
@@ -27,7 +27,7 @@
                                 <tr>
                                     <th class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-600 uppercase">#</th>
                                     <th class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-600 uppercase">Nama Produk</th>
-                                    <th class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-600 uppercase">Deskripsi</th>
+                                    {{-- <th class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-600 uppercase">Deskripsi</th> --}}
                                     <th class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-600 uppercase">Harga</th>
                                     <th class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-600 uppercase">Gambar</th>
                                     <th class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-600 uppercase">Stock</th>
@@ -42,11 +42,11 @@
                                     <tr class="hover:bg-gray-50">
                                         <td class="px-6 py-4 text-sm text-gray-700">{{ $index + 1 }}</td>
                                         <td class="px-6 py-4 text-sm text-gray-700">{{ $item->nama_produk }}</td>
-                                        <td class="px-6 py-4 text-sm text-gray-700">{{ $item->deskripsi }}</td>
+                                        {{-- <td class="px-6 py-4 text-sm text-gray-700">{{ $item->deskripsi }}</td> --}}
                                         <td class="px-6 py-4 text-sm text-gray-700">{{ $item->harga }}</td>
                                         <td class="px-6 py-4 text-sm text-gray-700">
                                             @if($item->gambar_produk)
-                                                <img src="{{ asset('uploads/produk/' . $item->gambar_produk) }}"
+                                                <img src="{{ asset($item->gambar_produk) }}"
                                                     alt="{{ $item->nama_produk }}" class="w-16 h-16 object-cover rounded">
                                             @else
                                                 -

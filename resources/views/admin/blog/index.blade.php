@@ -1,7 +1,7 @@
 <x-admin-app-layout>
     <x-slot name="header">
         <h2 class="text-xl font-semibold leading-tight text-gray-800">
-            {{ __('Kelola Blog') }}
+            {{ __('Blog') }}
         </h2>
     </x-slot>
 
@@ -40,7 +40,7 @@
                                         <td class="px-6 py-4 text-sm text-gray-700">{{ $blog->judul }}</td>
                                         <td class="px-6 py-4 text-sm text-gray-700">
                                             @if($blog->gambar)
-                                                <img src="{{ asset('storage/' . $blog->gambar) }}"
+                                                <img src="{{ asset($blog->gambar) }}"
                                                     alt="{{ $blog->judul }}" class="w-16 h-16 object-cover rounded">
                                             @else
                                                 -

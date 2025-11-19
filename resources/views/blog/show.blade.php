@@ -8,11 +8,11 @@
         </div>
 
         <article class="overflow-hidden bg-white shadow-xl rounded-2xl">
-            
+
             {{-- Hero Section (Gambar Besar) --}}
             @if ($blog->gambar)
                 <div class="relative w-full h-96">
-                    <img src="{{ asset('storage/' . $blog->gambar) }}" alt="{{ $blog->judul }}" 
+                    <img src="{{ asset('storage/' . $blog->gambar) }}" alt="{{ $blog->judul }}"
                          class="object-cover w-full h-full">
                     {{-- Efek overlay untuk judul --}}
                     <div class="absolute inset-0 bg-black bg-opacity-40"></div>
@@ -20,7 +20,7 @@
             @endif
 
             <div class="p-6 sm:p-10 lg:p-16">
-                
+
                 {{-- Judul dan Metadata --}}
                 <header class="pb-6 mb-8 border-b">
                     <h1 class="text-4xl font-extrabold leading-tight text-gray-900 sm:text-5xl">
