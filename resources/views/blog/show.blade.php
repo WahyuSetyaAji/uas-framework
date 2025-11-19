@@ -11,22 +11,14 @@
             </a>
         </div>
 
-<<<<<<< Updated upstream
-        <article class="overflow-hidden bg-white shadow-xl rounded-2xl">
-            
-            {{-- Hero Section (Gambar Besar) --}}
-            @if ($blog->gambar)
-                <div class="relative w-full h-96">
-                    <img src="{{ asset('storage/' . $blog->gambar) }}" alt="{{ $blog->judul }}" 
-=======
         <article class="overflow-hidden bg-white shadow-2xl rounded-3xl">
 
             {{-- Hero Image dengan Overlay Modern --}}
             @if ($blog->gambar)
                 <div class="relative w-full overflow-hidden h-96 md:h-[500px]">
                     <img src="{{ asset('storage/' . $blog->gambar) }}"
-                         alt="{{ $blog->judul }}"
->>>>>>> Stashed changes
+                         alt="{{ $blog->judul }}
+                    <img src="{{ asset('storage/' . $blog->gambar) }}" alt="{{ $blog->judu
                          class="object-cover w-full h-full">
                     {{-- Gradient Overlay --}}
                     <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent"></div>
@@ -63,17 +55,6 @@
                 </div>
             @endif
 
-<<<<<<< Updated upstream
-            <div class="p-6 sm:p-10 lg:p-16">
-                
-                {{-- Judul dan Metadata --}}
-                <header class="pb-6 mb-8 border-b">
-                    <h1 class="text-4xl font-extrabold leading-tight text-gray-900 sm:text-5xl">
-                        {{ $blog->judul }}
-                    </h1>
-                    <div class="flex items-center mt-3 space-x-2 text-base text-gray-500">
-                        <span>Diposting pada **{{ $blog->created_at->format('d F Y') }}**</span>
-=======
             {{-- Content Section --}}
             <div class="p-6 md:p-12 lg:p-16">
                 <div class="max-w-4xl mx-auto">
@@ -137,7 +118,6 @@
                                 </a>
                             </div>
                         </div>
->>>>>>> Stashed changes
                     </div>
 
                 </div>
