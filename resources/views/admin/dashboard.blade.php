@@ -8,6 +8,7 @@
     <div class="py-6">
         <div class="mx-auto space-y-6 max-w-7xl sm:px-6 lg:px-8">
 
+            <!-- Welcome Card & Role Badge -->
             <div class="flex items-center justify-between p-6 overflow-hidden bg-white shadow-sm sm:rounded-lg">
                 <div>
                     <h3 class="text-lg font-medium text-gray-900">
@@ -18,6 +19,7 @@
                     </p>
                 </div>
 
+                <!-- Badge Role -->
                 <div>
                     @if(Auth::user()->role === 'superadmin')
                         <span class="px-4 py-2 text-xs font-bold tracking-wider text-white bg-red-600 rounded-md shadow-lg md:text-sm">
@@ -31,15 +33,14 @@
                 </div>
             </div>
 
+            <!-- Statistik Cards -->
             <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
 
-                {{-- KARTU KHUSUS SUPERADMIN: TOTAL USER --}}
+                {{-- Total User --}}
                 @if(Auth::user()->role === 'superadmin')
-                <div class="p-4 border-l-4 border-red-500 rounded-lg shadow bg-red-50">
-                    <h2 class="text-sm font-medium text-red-600 uppercase">Total Admin / User</h2>
-                    {{-- Menggunakan count() langsung agar tidak perlu ubah controller --}}
-                    <p class="mt-2 text-2xl font-bold text-gray-800">{{ \App\Models\User::count() }}</p>
-                    <p class="mt-1 text-xs text-gray-500">Akun terdaftar dalam sistem</p>
+                <div class="p-4 bg-white rounded-lg shadow">
+                    <h2 class="text-sm font-medium text-gray-500">Total Admin / User</h2>
+                    <p class="mt-2 text-xl font-bold text-gray-800">{{ $totalUser }}</p>
                 </div>
                 @endif
 
@@ -79,6 +80,7 @@
                 </div>
             </div>
 
+            <!-- Shortcut Actions -->
             <div class="p-4 bg-white rounded-lg shadow">
                 <h2 class="pb-2 mb-4 text-lg font-semibold border-b">Quick Actions</h2>
                 <div class="flex flex-wrap gap-3">
@@ -92,16 +94,19 @@
                     </a>
                     @endif
 
+                    <!-- Tambah Produk -->
                     <a href="{{ route('admin.produk.create') }}"
                         class="px-4 py-2 text-white transition bg-blue-600 rounded hover:bg-blue-700">
                         + Produk
                     </a>
 
+                    <!-- Tambah Blog -->
                     <a href="{{ route('admin.blog.create') }}"
                         class="px-4 py-2 text-white transition bg-green-600 rounded hover:bg-green-700">
                         + Blog
                     </a>
 
+                    <!-- Tambah Testimoni -->
                     <a href="{{ route('admin.testimoni.create') }}"
                         class="px-4 py-2 text-white transition bg-yellow-500 rounded hover:bg-yellow-600">
                         + Testimoni
@@ -109,11 +114,13 @@
 
                     <div class="mx-2 border-l border-gray-300"></div>
 
+                    <!-- Kelola Order -->
                     <a href="{{ route('admin.order.index') }}"
                         class="px-4 py-2 text-white transition bg-gray-600 rounded hover:bg-gray-700">
                         List Order
                     </a>
 
+                    <!-- Kelola Kontak -->
                     <a href="{{ route('admin.kontak.index') }}"
                         class="px-4 py-2 text-white transition rounded bg-cyan-600 hover:bg-cyan-700">
                         Inbox Kontak
@@ -121,7 +128,9 @@
                 </div>
             </div>
 
+            <!-- Konten Terbaru -->
             <div class="grid grid-cols-1 gap-6 lg:grid-cols-2">
+                <!-- Blog Terbaru -->
                 <div class="p-4 bg-white rounded-lg shadow">
                     <div class="flex items-center justify-between mb-4">
                         <h2 class="text-lg font-semibold">Blog Terbaru</h2>
@@ -139,6 +148,7 @@
                     </ul>
                 </div>
 
+                <!-- Testimoni Terbaru -->
                 <div class="p-4 bg-white rounded-lg shadow">
                     <div class="flex items-center justify-between mb-4">
                         <h2 class="text-lg font-semibold">Testimoni Terbaru</h2>
