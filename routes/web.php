@@ -16,6 +16,7 @@ use App\Http\Controllers\Admin\AdminTestimoniController;
 use App\Http\Controllers\Admin\AdminOrderController;
 use App\Http\Controllers\Admin\AdminKontakController;
 use App\Http\Controllers\Admin\AdminBlogController;
+use App\Http\Controllers\Admin\AdminUserController;
 
 // =============================
 // ROUTE UNTUK USER / PELANGGAN
@@ -77,6 +78,9 @@ Route::middleware(['auth', 'verified'])->prefix('admin')->name('admin.')->group(
 
     // CRUD Blog
     Route::resource('blog', AdminBlogController::class);
+
+    // Kelola Akun
+    Route::resource('users', AdminUserController::class);
 });
 
 // Route auth bawaan Laravel Breeze / Jetstream
