@@ -15,6 +15,7 @@
     <main class="min-h-screen pt-20 pb-10">
         {{ $slot }}
     </main>
+    
 
     {{-- Footer --}}
     <footer class="py-6 mt-auto text-center text-white bg-gray-900">
