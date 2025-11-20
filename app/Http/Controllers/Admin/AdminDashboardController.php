@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Produk;
 use App\Models\Testimoni;
 use App\Models\Blog;
+use App\Models\User;
 
 class AdminDashboardController extends Controller
 {
@@ -18,7 +19,8 @@ class AdminDashboardController extends Controller
         // Hitung total data
         $totalProduk = Produk::count();
         $totalTestimoni = Testimoni::count();
-        $totalBlog = Blog::count(); // hapus kalau nggak ada
+        $totalBlog = Blog::count();
+        $totalUser = User::count();
 
         // Ambil data terbaru (5 item terakhir)
         $testimoniTerbaru = Testimoni::with('produk')
@@ -42,6 +44,7 @@ class AdminDashboardController extends Controller
             'totalBlog',
             'testimoniTerbaru',
             'blogTerbaru',
+            'totalUser',
             'produkPopuler'
         ));
     }
