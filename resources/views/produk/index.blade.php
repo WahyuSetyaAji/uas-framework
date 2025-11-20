@@ -1,54 +1,81 @@
 @extends('layouts.guest')
 
-@section('title', 'Katalog Produk - Bowo Jok')
-
 @section('content')
-<section class="py-16 bg-gradient-to-r from-blue-900 to-red-600 text-white text-center">
-    <div class="container mx-auto px-4">
-        <h1 class="text-4xl font-bold mb-3">Katalog Produk Bowo Jok</h1>
-        <p class="text-lg">Temukan berbagai pilihan jok berkualitas tinggi untuk motor, mobil, bus, dan kapal.</p>
+    {{-- ==========================
+      HERO PREMIUM
+========================== --}}
+    <section
+        class="relative w-full py-20 bg-gradient-to-r from-blue-800 via-purple-700 to-red-600 text-white mb-14 shadow-lg">
+        <div class="text-center px-6">
+            <h1 class="text-4xl md:text-5xl font-extrabold drop-shadow-lg">
+                Katalog Produk Bowo Jok
+            </h1>
+            <p class="mt-4 text-lg md:text-xl opacity-90">
+                Temukan berbagai pilihan jok berkualitas tinggi untuk motor, mobil, bus, dan kapal.
+            </p>
+        </div>
+    </section>
+
+    {{-- ==========================
+       SEARCH BAR PREMIUM
+========================== --}}
+    <div class="flex justify-center mb-12 px-6">
+        <form action="{{ route('produk.index') }}" method="GET" class="w-full max-w-3xl">
+            <div class="flex items-center border rounded-xl overflow-hidden bg-white shadow-md hover:shadow-lg transition">
+                <input type="text" name="search" placeholder="Cari produk…" value="{{ request('search') }}"
+                    class="w-full px-4 py-3 focus:outline-none text-gray-700">
+
+                <button type="submit" class="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold transition">
+                    Cari
+                </button>
+            </div>
+        </form>
     </div>
-</section>
 
-<div class="container mx-auto px-4 py-10">
+    {{-- ==========================
+      PRODUK GRID PREMIUM
+========================== --}}
+    <div class="grid gap-10 px-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
 
-    {{-- Search --}}
-    <form action="{{ route('produk.index') }}" method="GET" class="flex justify-center mb-8">
-        <input type="text" name="search" value="{{ request('search') }}"
-               placeholder="Cari produk..."
-               class="w-1/2 px-4 py-2 border border-gray-300 rounded-l-lg focus:ring-2 focus:ring-red-500 focus:outline-none">
-        <button type="submit"
-                class="bg-blue-900 text-white px-5 py-2 rounded-r-lg hover:bg-red-600 transition">
-            Cari
-        </button>
-    </form>
-
-    {{-- Grid Produk --}}
-    <div class="grid md:grid-cols-3 sm:grid-cols-2 gap-8">
         @forelse ($produk as $item)
-            <div class="bg-white rounded-2xl shadow hover:shadow-lg transition overflow-hidden">
-                <img src="{{ asset($item->gambar_produk) }}"
-                     alt="{{ $item->nama_produk }}"
-                     class="w-full h-56 object-cover">
-                <div class="p-5 text-center">
-                    <h3 class="font-semibold text-lg mb-2">{{ $item->nama_produk }}</h3>
-                    <p class="text-red-600 font-bold mb-3">Rp {{ number_format($item->harga, 0, ',', '.') }}</p>
+            <div
+                class="bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition duration-300 hover:-translate-y-1">
+
+                {{-- Gambar --}}
+                @if ($item->gambar_produk)
+                    <a href="{{ route('produk.show', $item->id) }}">
+                        <div class="h-48 w-full overflow-hidden">
+                            <img src="{{ asset($item->gambar_produk) }}"
+                                class="object-cover w-full h-full rounded-t-xl hover:scale-110 transition duration-700">
+                        </div>
+                    </a>
+                @endif
+
+                {{-- Info --}}
+                <div class="p-5">
+                    <h3 class="text-xl font-bold text-gray-800 mb-2">
+                        {{ $item->nama_produk }}
+                    </h3>
+
+                    <p class="text-red-600 font-semibold text-lg mb-3">
+                        Rp {{ number_format($item->harga, 0, ',', '.') }}
+                    </p>
+
                     <a href="{{ route('produk.show', $item->id) }}"
-                       class="inline-block bg-blue-900 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition">
-                       Lihat Detail
+                        class="inline-block py-2 px-5 bg-blue-600 hover:bg-blue-700 text-white rounded-lg shadow transition">
+                        Lihat Detail
                     </a>
                 </div>
+
             </div>
         @empty
-            <div class="col-span-3 text-center text-gray-500 py-10">
-                Tidak ada produk ditemukan.
-            </div>
+            <p class="text-center text-gray-500">Tidak ada produk ditemukan.</p>
         @endforelse
+
     </div>
 
-    {{-- Pagination --}}
-    <div class="mt-10 flex justify-center">
+    {{-- PAGINATION --}}
+    <div class="mt-12 px-6">
         {{ $produk->links() }}
     </div>
-</div>
 @endsection

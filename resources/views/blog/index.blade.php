@@ -1,78 +1,104 @@
-<x-guest-layout>
-    <div class="mb-6">
-        <h1 class="text-3xl font-bold text-center text-gray-800">Blog Kami</h1>
-        <p class="text-center text-gray-600">Lihat artikel dan update terbaru kami.</p>
-    </div>
+@extends('layouts.guest')
 
-    {{-- START: Tambahkan Form Pencarian --}}
-    <div class="flex justify-center mb-8">
-        <form action="{{ route('blog.index') }}" method="GET" class="w-full max-w-lg">
-            <div class="flex items-center overflow-hidden border border-gray-300 rounded-lg shadow-sm">
-                {{-- Input pencarian: menggunakan request('search') agar nilai tetap ada --}}
-                <input type="text" name="search" placeholder="Cari judul atau konten blog..."
-                        value="{{ request('search') }}"
-                        class="w-full px-4 py-2 border-none focus:outline-none focus:ring-0">
-                <button type="submit"
-                        class="px-4 py-2 text-white transition duration-150 bg-blue-600 hover:bg-blue-700">
+@section('content')
+    {{-- =========================
+      HERO SECTION PREMIUM
+========================= --}}
+    <section class="relative w-full h-64 md:h-80 overflow-hidden mb-10">
+        <img src="{{ asset('images/galeri/background/jokbckg.jpg') }}"
+            class="absolute inset-0 w-full h-full object-cover scale-125 opacity-90">
+        <div class="absolute inset-0 bg-black/50"></div>
+
+        <div class="relative z-10 h-full flex flex-col items-center justify-center text-white text-center">
+            <h1 class="text-4xl md:text-5xl font-extrabold drop-shadow-lg">
+                Blog Kami
+            </h1>
+            <p class="mt-3 text-lg md:text-xl text-gray-200">
+                Artikel, tips, dan informasi seputar dunia jok premium
+            </p>
+        </div>
+    </section>
+
+
+    {{-- =========================
+      SEARCH BAR PREMIUM
+========================= --}}
+    <div class="flex justify-center mb-10 px-4">
+        <form action="{{ route('blog.index') }}" method="GET" class="w-full max-w-2xl">
+            <div class="flex items-center overflow-hidden rounded-xl shadow-lg">
+                <input type="text" name="search" placeholder="Cari artikel berdasarkan judul atau konten..."
+                    value="{{ request('search') }}" class="w-full px-5 py-3 border-none focus:outline-none text-gray-700">
+
+                <button type="submit" class="px-6 py-3 bg-blue-600 text-white font-semibold hover:bg-blue-700 transition">
                     Cari
                 </button>
             </div>
-            @if(request('search'))
-                {{-- Tampilkan tombol Reset jika sedang ada pencarian aktif --}}
-                <div class="mt-2 text-sm text-center text-gray-500">
-                    Menampilkan hasil untuk: **{{ request('search') }}**.
-                    <a href="{{ route('blog.index') }}" class="font-medium text-blue-600 hover:text-blue-800">Reset Pencarian</a>
+
+            @if (request('search'))
+                <div class="mt-3 text-sm text-center text-gray-600">
+                    Menampilkan hasil untuk: <b>{{ request('search') }}</b>
+                    <a href="{{ route('blog.index') }}" class="text-blue-600 hover:text-blue-800 ml-1">
+                        Reset
+                    </a>
                 </div>
             @endif
         </form>
     </div>
-    {{-- END: Tambahkan Form Pencarian --}}
 
-    <div class="space-y-8">
+
+    {{-- =========================
+      BLOG LIST PREMIUM
+========================= --}}
+    <div class="grid gap-10 px-4 md:grid-cols-2 lg:grid-cols-3">
+
         @forelse ($blogs as $blog)
-            <article class="overflow-hidden transition-shadow duration-300 bg-white rounded-lg shadow-md hover:shadow-xl">
+            <article
+                class="bg-white overflow-hidden rounded-2xl shadow-md hover:shadow-2xl transition hover:-translate-y-1">
+
+                {{-- Gambar --}}
                 @if ($blog->gambar)
                     <a href="{{ route('blog.show', $blog->slug) }}">
-                        {{-- Asumsi gambar disimpan di storage/app/public/nama-file --}}
-                        <img src="{{ asset('storage/' . $blog->gambar) }}" alt="{{ $blog->judul }}" class="object-cover w-full h-56">
+                        <img src="{{ asset('storage/' . $blog->gambar) }}"
+                            class="object-cover w-full h-48 hover:scale-105 transition duration-500">
                     </a>
                 @endif
+
+                {{-- Konten --}}
                 <div class="p-6">
-                    <h2 class="text-2xl font-semibold">
-                        <a href="{{ route('blog.show', $blog->slug) }}" class="text-gray-900 hover:text-blue-700">
+                    <h2 class="text-2xl font-bold leading-snug">
+                        <a href="{{ route('blog.show', $blog->slug) }}" class="hover:text-blue-600">
                             {{ $blog->judul }}
                         </a>
                     </h2>
-                    <div class="mt-2 text-sm text-gray-500">
-                        Diposting pada {{ $blog->created_at->format('d M Y') }}
-                    </div>
-                    <p class="mt-3 text-gray-700">
-                        {{-- Menampilkan cuplikan konten (150 karakter), hapus tag HTML --}}
+
+                    <p class="mt-2 text-sm text-gray-500">
+                        Diposting pada {{ $blog->created_at->translatedFormat('d F Y') }}
+                    </p>
+
+                    <p class="mt-4 text-gray-700 leading-relaxed">
                         {{ Str::limit(strip_tags($blog->konten), 150) }}
                     </p>
-                    <div class="mt-4">
-                        <a href="{{ route('blog.show', $blog->slug) }}" class="font-semibold text-blue-600 hover:underline">
-                            Baca Selengkapnya &rarr;
-                        </a>
-                    </div>
+
+                    <a href="{{ route('blog.show', $blog->slug) }}"
+                        class="inline-block mt-4 text-blue-600 font-semibold hover:underline">
+                        Baca Selengkapnya →
+                    </a>
                 </div>
+
             </article>
         @empty
-            <div class="p-6 text-center bg-white rounded-lg shadow-md">
-                <p class="text-gray-500">
-                    @if(request('search'))
-                        {{-- Pesan jika pencarian tidak menemukan hasil --}}
-                        Tidak ada postingan blog yang ditemukan untuk pencarian **"{{ request('search') }}"**.
-                    @else
-                        Belum ada postingan blog yang tersedia.
-                    @endif
-                </p>
+            <div class="p-6 text-center bg-white rounded-xl shadow">
+                <p class="text-gray-500">Belum ada postingan blog.</p>
             </div>
         @endforelse
+
     </div>
 
-    <div class="mt-10">
-        {{-- memastikan parameter query (termasuk 'search') disertakan dalam link pagination --}}
+
+    {{-- =========================
+      PAGINATION
+========================= --}}
+    <div class="mt-12 px-4">
         {{ $blogs->appends(request()->query())->links() }}
     </div>
-</x-guest-layout>
+@endsection
