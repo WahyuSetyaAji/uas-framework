@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -13,18 +14,16 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 
-<body class="font-sans antialiased bg-gray-100">
-    {{-- Container Utama: Flex Row agar Sidebar & Konten Berdampingan --}}
-    <div class="flex min-h-screen">
+<body x-data="{ openSidebar: true }" class="font-sans antialiased bg-gray-100">
+    <div class="min-h-screen flex">
 
-        {{-- Sidebar Navigation --}}
-        {{-- Kita memanggil file navigation.blade.php yang baru saja kita ubah --}}
-        <aside class="flex-shrink-0">
-            @include('layouts.admin.navigation')
+        {{-- Sidebar kiri --}}
+        <aside class="fixed inset-y-0 left-0 bg-gray-900 transition-all duration-300" :class="openSidebar ? 'w-64' : 'w-20'">
+            @include('layouts.admin.sidebar')
         </aside>
 
-        {{-- Konten Kanan --}}
-        <div class="flex flex-col flex-1 min-w-0 overflow-hidden">
+        {{-- Konten kanan --}}
+        <div class="flex-1 flex flex-col transition-all duration-300" :class="openSidebar ? 'ml-64' : 'ml-20'">
 
             {{-- Header Dashboard (Opsional: Judul Halaman) --}}
             @isset($header)
