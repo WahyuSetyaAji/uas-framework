@@ -1,10 +1,9 @@
 <x-auth-layout>
     
-    {{-- Hapus semua class background di sini, hanya pertahankan penempatan di tengah --}}
     <div class="flex justify-center items-center min-h-screen"> 
 
         {{-- Container Form Login: Card Putih --}}
-        <div class="w-full max-w-sm bg-white rounded-xl shadow-2xl p-8 transform transition duration-300 z-10">
+        <div class="w-full max-w-sm bg-white rounded-xl shadow-2xl p-8 z-10">
             
             <h2 class="text-3xl font-bold text-center text-gray-800 mb-2">
                 Selamat Datang
@@ -37,17 +36,16 @@
                 </div>
 
                 {{-- Remember + Lupa Password --}}
-                <div class="flex items-center justify-between mb-6">
-                    <label class="flex items-center text-gray-600 text-sm">
-                        <input type="checkbox" name="remember" class="rounded border-gray-300 text-blue-600 focus:ring-blue-500">
-                        <span class="ml-2">Ingat saya</span>
-                    </label>
-
+                <div class="flex items-center justify-end mb-6">
+                    {{-- Checkbox "Ingat saya" dihapus karena layout lebih baik jika rata kanan --}}
+                    
                     @if (Route::has('password.request'))
-                        <a href="{{ route('password.request') }}" class="text-sm text-blue-600 hover:text-blue-800 font-medium transition duration-150">Lupa Kata Sandi?</a>
+                        <a href="{{ route('password.request') }}" class="text-sm text-blue-600 hover:text-blue-800 font-medium transition duration-150">
+                            Lupa Kata Sandi?
+                        </a>
                     @endif
                 </div>
-
+                
                 {{-- Tombol login --}}
                 <button type="submit"
                     class="w-full py-3 font-bold rounded-lg text-white tracking-wider 
@@ -56,12 +54,12 @@
                     MASUK
                 </button>
 
-                <p class="text-center text-gray-500 text-sm mt-6">
-                    Belum punya akun? 
-                    <a href="{{ route('register') }}" class="text-blue-600 hover:text-blue-800 font-semibold transition duration-150">Daftar Sekarang</a>
-                </p>
+                {{-- **Baris untuk link Daftar Sekarang telah dihapus** --}}
 
             </form>
+            
+            {{-- Tambahkan jarak di bawah form jika perlu, untuk estetika --}}
+            <div class="mt-4"></div>
         </div>
     </div>
 
