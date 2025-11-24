@@ -18,7 +18,7 @@
                 <div class="relative w-full overflow-hidden h-96 md:h-[500px]">
                     <img src="{{ asset('storage/' . $blog->gambar) }}"
                          alt="{{ $blog->judul }}
-                    <img src="{{ asset('storage/' . $blog->gambar) }}" alt="{{ $blog->judu
+                    <img src="{{ asset('storage/' . $blog->gambar) }}" alt="{{ $blog->judul }}"
                          class="object-cover w-full h-full">
                     {{-- Gradient Overlay --}}
                     <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent"></div>
@@ -61,7 +61,7 @@
 
                     {{-- Metadata Bar --}}
                     <div class="flex flex-wrap items-center gap-4 pb-8 mb-8 border-b-2 border-gray-100">
-                        <div class="flex items-center gap-2 px-4 py-2 bg-gray-50 rounded-full">
+                        <div class="flex items-center gap-2 px-4 py-2 rounded-full bg-gray-50">
                             <svg class="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
                             </svg>
@@ -70,7 +70,7 @@
                             </span>
                         </div>
 
-                        <div class="flex items-center gap-2 px-4 py-2 bg-gray-50 rounded-full">
+                        <div class="flex items-center gap-2 px-4 py-2 rounded-full bg-gray-50">
                             <svg class="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"/>
                             </svg>

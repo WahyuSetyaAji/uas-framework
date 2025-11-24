@@ -1,59 +1,56 @@
-<nav x-data="{ open: false }" class="fixed top-0 z-50 w-full text-white shadow bg-blue-900">
-    <div class="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
-        <div class="flex justify-between h-16">
+<nav x-data="{ open: false }"
+    class="fixed top-0 w-full z-50 backdrop-blur-xl bg-white/10 border-b border-white/20 shadow-[0_4px_30px_rgba(0,0,0,0.2)] transition">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between h-16 items-center">
 
+            <!-- LOGO -->
             <div class="flex items-center">
-                <a href="{{ url('/') }}" class="text-xl font-bold text-white hover:text-gray-200 transition">
+                <a href="{{ url('/') }}" class="text-2xl font-extrabold tracking-wide text-black drop-shadow-lg">
                     Bowo Jok
                 </a>
             </div>
 
-            <div class="items-center hidden space-x-8 md:flex">
-                <a href="{{ route('home') }}" class="hover:text-gray-200 transition {{ request()->routeIs('home') ? 'font-bold text-white border-b-2 border-white pb-1' : '' }}">
+            <!-- DESKTOP MENU -->
+            <div class="hidden md:flex items-center space-x-10 text-black font-medium">
+
+                <a href="{{ route('home') }}"
+                    class="hover:text-blue-300 transition {{ request()->routeIs('home') ? 'text-blue-300 font-semibold' : '' }}">
                     Beranda
                 </a>
-                <a href="{{ route('produk.index') }}" class="hover:text-gray-200 transition {{ request()->routeIs('produk.*') ? 'font-bold text-white border-b-2 border-white pb-1' : '' }}">
+
+                <a href="{{ route('produk.index') }}"
+                    class="hover:text-blue-300 transition {{ request()->routeIs('produk.index') ? 'text-blue-300 font-semibold' : '' }}">
                     Produk
                 </a>
-                <a href="{{ route('blog.index') }}" class="hover:text-gray-200 transition {{ request()->routeIs('blog.*') ? 'font-bold text-white border-b-2 border-white pb-1' : '' }}">
+
+                <a href="{{ route('blog.index') }}"
+                    class="hover:text-blue-300 transition {{ request()->routeIs('blog.index') ? 'text-blue-300 font-semibold' : '' }}">
                     Blog
                 </a>
-                <a href="{{ route('kontak.index') }}" class="hover:text-gray-200 transition {{ request()->routeIs('kontak.index') ? 'font-bold text-white border-b-2 border-white pb-1' : '' }}">
+
+                <a href="{{ route('kontak.index') }}"
+                    class="hover:text-blue-300 transition {{ request()->routeIs('kontak.index') ? 'text-blue-300 font-semibold' : '' }}">
                     Kontak
                 </a>
-
-                @auth
-                    <a href="{{ url('/admin/dashboard') }}" class="px-4 py-2 font-semibold text-blue-900 bg-white rounded hover:bg-gray-100 transition">
-                        Dashboard
-                    </a>
-                @else
-                    <a href="{{ route('login') }}" class="font-semibold text-white hover:text-gray-200 transition">
-                        Login
-                    </a>
-                @endauth
             </div>
 
-            <div class="flex items-center md:hidden">
-                <button @click="open = !open" class="text-white focus:outline-none hover:text-gray-200 transition">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path x-show="!open" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-                        <path x-show="open" style="display: none;" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+            <!-- MOBILE BUTTON -->
+            <div class="md:hidden flex items-center">
+                <button @click="open = !open" class="text-black focus:outline-none">
+                    <svg class="w-7 h-7" fill="none" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
                     </svg>
                 </button>
             </div>
         </div>
     </div>
 
-    <div x-show="open" style="display: none;" class="px-4 pb-4 space-y-2 bg-blue-800 md:hidden transition-all duration-300">
-        <a href="{{ route('home') }}" class="block py-2 hover:text-gray-200 {{ request()->routeIs('home') ? 'font-bold' : '' }}">Beranda</a>
-        <a href="{{ route('produk.index') }}" class="block py-2 hover:text-gray-200 {{ request()->routeIs('produk.*') ? 'font-bold' : '' }}">Produk</a>
-        <a href="{{ route('blog.index') }}" class="block py-2 hover:text-gray-200 {{ request()->routeIs('blog.*') ? 'font-bold' : '' }}">Blog</a>
-        <a href="{{ route('kontak.index') }}" class="block py-2 hover:text-gray-200 {{ request()->routeIs('kontak.index') ? 'font-bold' : '' }}">Kontak</a>
-
-        @auth
-            <a href="{{ url('/admin/dashboard') }}" class="block py-2 font-bold text-yellow-400 hover:text-yellow-300">Dashboard Admin</a>
-        @else
-            <a href="{{ route('login') }}" class="block py-2 font-semibold hover:text-gray-200">Login</a>
-        @endauth
+    <!-- MOBILE MENU -->
+    <div x-show="open" x-transition
+        class="md:hidden px-4 pb-4 pt-3 space-y-3 bg-black/50 backdrop-blur-xl text-white font-medium">
+        <a href="{{ route('home') }}" class="block py-1 hover:text-blue-300">Beranda</a>
+        <a href="{{ route('produk.index') }}" class="block py-1 hover:text-blue-300">Produk</a>
+        <a href="{{ route('blog.index') }}" class="block py-1 hover:text-blue-300">Blog</a>
+        <a href="{{ route('kontak.index') }}" class="block py-1 hover:text-blue-300">Kontak</a>
     </div>
 </nav>
