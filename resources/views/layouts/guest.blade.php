@@ -6,7 +6,7 @@
     <title>{{ $title ?? 'Bowo Jok' }}</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
-<body class="font-sans text-gray-900 bg-gray-50">
+<body class="bg-gray-50 text-gray-900 font-sans">
 
     {{-- Include Navigasi dari layouts/navigation.blade.php --}}
     @include('layouts.navigation')
@@ -15,7 +15,7 @@
     <main class="min-h-screen pt-20 pb-10">
         {{ $slot }}
     </main>
-    
+
 
     {{-- Footer --}}
     <footer class="py-6 mt-auto text-center text-white bg-gray-900">
