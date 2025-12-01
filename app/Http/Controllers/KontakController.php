@@ -14,27 +14,33 @@ class KontakController extends Controller
     {
         // 1. Ambil data kontak dengan tipe 'Customer Service'
         $kontak = DB::table('kontak')->where('tipe', 'cs')->first();
+        $waLink = '#';
 
         // Cek ketersediaan kontak dan nomornya
-        if (!$kontak || empty($kontak->no_kontak)) {
-            return Redirect::back()->with('error', 'Layanan Customer Service sedang tidak tersedia. Mohon coba beberapa saat lagi atau hubungi melalui email.');
+        if ($kontak && !empty($kontak->no_kontak)) {
+            // 2. Logika Pembersihan dan Format Nomor WhatsApp
+            $waNumber = $kontak->no_kontak;
+
+            // Bersihkan nomor dari karakter non-digit
+            $cleanWaNumber = preg_replace('/[^0-9]/', '', $waNumber);
+
+            $formattedWaNumber = $cleanWaNumber;
+
+            // Cek dan ganti '0' di awal dengan '62'
+            if (substr($cleanWaNumber, 0, 1) === '0') {
+                $formattedWaNumber = '62' . substr($cleanWaNumber, 1);
+            }
+
+            // 3. Buat Link WhatsApp
+            $waLink = "https://wa.me/{$formattedWaNumber}";
+        } else {
+            $kontak = (object)[
+                'no_kontak' => '-',
+                'email_kontak' => '-',
+                'alamat' => 'Alamat tidak tersedia.',
+            ];
         }
 
-        // 2. Logika Pembersihan dan Format Nomor WhatsApp
-        $waNumber = $kontak->no_kontak;
-        $cleanWaNumber = preg_replace('/[^0-9]/', '', $waNumber);
-
-        $formattedWaNumber = $cleanWaNumber;
-
-        // Cek dan ganti '0' di awal dengan '62'
-        if (substr($cleanWaNumber, 0, 1) === '0') {
-            $formattedWaNumber = '62' . substr($cleanWaNumber, 1);
-        }
-
-        // 3. Buat Link WhatsApp
-        $waLink = "https://wa.me/{$formattedWaNumber}";
-
-        // Kirim $kontak dan $waLink ke view
         return view('kontak.index', compact('kontak', 'waLink'));
     }
 }

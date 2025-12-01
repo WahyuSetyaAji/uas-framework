@@ -6,14 +6,22 @@
     {{-- ==========================
          HERO PREMIUM
     ========================== --}}
-    <section
-        class="relative w-full py-20 mb-14 text-white shadow-lg bg-gradient-to-r from-blue-800 via-purple-700 to-red-600">
-        <div class="px-6 text-center">
+    <section class="relative w-full h-64 mb-10 overflow-hidden md:h-80">
+        {{-- Background Image --}}
+        <img src="{{ asset('images/galeri/jok2.jpg') }}"
+            alt="Produk Background"
+            class="absolute inset-0 object-cover w-full h-full scale-125 opacity-90">
+
+        {{-- Overlay --}}
+        <div class="absolute inset-0 bg-black/50"></div>
+
+        {{-- Content --}}
+        <div class="relative z-10 flex flex-col items-center justify-center h-full text-center text-white">
             <h1 class="text-4xl font-extrabold drop-shadow-lg md:text-5xl">
-                Katalog Produk Bowo Jok
+                Katalog Produk Kami
             </h1>
-            <p class="mt-4 text-lg opacity-90 md:text-xl">
-                Temukan berbagai pilihan jok berkualitas tinggi untuk motor, mobil, bus, dan kapal.
+            <p class="mt-3 text-lg text-gray-200 md:text-xl">
+                Temukan berbagai pilihan jok berkualitas tinggi untuk motor dan mobil.
             </p>
         </div>
     </section>

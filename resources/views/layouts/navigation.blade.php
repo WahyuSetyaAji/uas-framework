@@ -5,31 +5,36 @@
 
             <!-- LOGO -->
             <div class="flex items-center">
-                <a href="{{ url('/') }}" class="text-2xl font-extrabold tracking-wide text-black drop-shadow-lg">
-                    Bowo Jok
+                <a href="{{ url('/') }}" class="flex items-center gap-3">
+                    <img src="{{ asset('images/galeri/logo/bjlogo.png') }}" alt="Bowo Jok Logo"
+                        class="h-10 drop-shadow-lg">
+
+                    <span class="text-2xl font-extrabold tracking-wide text-white drop-shadow-lg">
+                        Bowo Jok
+                    </span>
                 </a>
             </div>
 
             <!-- DESKTOP MENU -->
-            <div class="hidden md:flex items-center space-x-10 text-black font-medium">
+            <div class="hidden md:flex items-center space-x-10 text-red-500 font-medium">
 
                 <a href="{{ route('home') }}"
-                    class="hover:text-blue-300 transition {{ request()->routeIs('home') ? 'text-blue-300 font-semibold' : '' }}">
+                    class="hover:text-red-300 transition {{ request()->routeIs('home') ? 'text-red-300 font-semibold' : '' }}">
                     Beranda
                 </a>
 
                 <a href="{{ route('produk.index') }}"
-                    class="hover:text-blue-300 transition {{ request()->routeIs('produk.index') ? 'text-blue-300 font-semibold' : '' }}">
+                    class="hover:text-red-300 transition {{ request()->routeIs('produk.index') ? 'text-red-300 font-semibold' : '' }}">
                     Produk
                 </a>
 
                 <a href="{{ route('blog.index') }}"
-                    class="hover:text-blue-300 transition {{ request()->routeIs('blog.index') ? 'text-blue-300 font-semibold' : '' }}">
+                    class="hover:text-red-300 transition {{ request()->routeIs('blog.index') ? 'text-red-300 font-semibold' : '' }}">
                     Blog
                 </a>
 
                 <a href="{{ route('kontak.index') }}"
-                    class="hover:text-blue-300 transition {{ request()->routeIs('kontak.index') ? 'text-blue-300 font-semibold' : '' }}">
+                    class="hover:text-red-300 transition {{ request()->routeIs('kontak.index') ? 'text-red-300 font-semibold' : '' }}">
                     Kontak
                 </a>
             </div>

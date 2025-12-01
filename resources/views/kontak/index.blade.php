@@ -3,19 +3,6 @@
         Kontak - Bowo Jok
     </x-slot:title>
 
-    {{-- KODE UNTUK MENAMPILKAN POP-UP/ALERT --}}
-    @if (session('error'))
-        <div class="fixed top-0 left-0 right-0 z-50 p-4 text-center bg-red-600 text-white font-bold shadow-lg">
-            {{ session('error') }}
-        </div>
-        <script>
-            // Script untuk menghilangkan alert setelah 5 detik
-            setTimeout(function() {
-                document.querySelector('.fixed.top-0').style.display = 'none';
-            }, 5000);
-        </script>
-    @endif
-
     <section class="min-h-screen py-20 bg-gradient-to-r from-blue-100 via-white to-red-100">
         <div class="container px-6 mx-auto">
 
@@ -100,7 +87,7 @@
                     </div>
 
                     {{-- WA BUTTON --}}
-                    <a href="{{ $waLink }}" target="_blank"
+                    <a href="{{ $waLink }}"
                         class="inline-block px-6 py-3 font-semibold text-white transition-transform bg-green-500 rounded-full shadow-lg hover:bg-green-600 hover:scale-105">
                         Hubungi via WhatsApp
                     </a>
