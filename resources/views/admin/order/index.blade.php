@@ -10,6 +10,9 @@
             <div class="overflow-hidden bg-white shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
 
+                    <x-auth-session-status class="mb-4 bg-gray-50 border border-gray-200 rounded-lg shadow-sm px-4 py-3"
+                        :status="session('success')" />
+
                     <div class="flex items-center justify-between mb-5 bg-gray-50 border border-gray-200 rounded-lg shadow-sm px-4 py-3">
                         <h2 class="text-2xl font-bold">Tabel Order</h2>
                     </div>
@@ -22,7 +25,8 @@
                                     <th class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-600 uppercase">Nama Customer</th>
                                     <th class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-600 uppercase">No. HP</th>
                                     <th class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-600 uppercase">Produk</th>
-                                    <th class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-600 uppercase">Jenis Order</th>
+                                    <th class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-600 uppercase">Metode Pemesanan</th>
+                                    <th class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-600 uppercase">Detail Kirim/Pasang</th>
                                     <th class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-600 uppercase">Tanggal Order</th>
                                     <th class="px-6 py-3 text-xs font-medium tracking-wider text-center text-gray-600 uppercase">Aksi</th>
                                 </tr>
@@ -35,7 +39,25 @@
                                         <td class="px-6 py-4 text-sm text-gray-700">{{ $order->nama_cus }}</td>
                                         <td class="px-6 py-4 text-sm text-gray-700">{{ $order->no_cus }}</td>
                                         <td class="px-6 py-4 text-sm text-gray-700">{{ $order->produk->nama_produk ?? '-' }}</td>
-                                        <td class="px-6 py-4 text-sm text-gray-700">{{ $order->jenis_order }}</td>
+
+                                        {{-- Menampilkan Metode Pemesanan --}}
+                                        <td class="px-6 py-4 text-sm text-gray-700">
+                                            @if ($order->booking_method == 'tempat')
+                                                <span class="font-semibold text-blue-600">Pasang Di Tempat</span>
+                                            @else
+                                                <span class="font-semibold text-green-600">Online</span>
+                                            @endif
+                                        </td>
+
+                                        {{-- Menampilkan Alamat (jika 'kirim') atau Keterangan (jika 'tempat') --}}
+                                        <td class="px-6 py-4 text-sm text-gray-700 max-w-xs truncate">
+                                            @if ($order->booking_method == 'kirim')
+                                                <span title="{{ $order->alamat }}">{{ Str::limit($order->alamat, 30) }}</span>
+                                            @else
+                                                Siap Pasang
+                                            @endif
+                                        </td>
+
                                         <td class="px-6 py-4 text-sm text-gray-700">{{ $order->tanggal_order }}</td>
                                         <td class="px-6 py-4 text-sm text-center">
                                             <div class="flex items-center justify-center space-x-2">
@@ -45,10 +67,10 @@
                                                     Detail
                                                 </a>
 
-                                                {{-- Tombol Hapus --}}
+                                                {{-- Tombol Hapus (Menggunakan confirmDelete JS) --}}
                                                 <button type="button"
-                                                        class="px-3 py-1 text-sm font-medium text-white bg-red-600 rounded-md hover:bg-red-700"
-                                                        onclick="confirmDelete({{ $order->id }}, '{{ route('admin.order.destroy', $order->id) }}')">
+                                                    class="px-3 py-1 text-sm font-medium text-white bg-red-600 rounded-md hover:bg-red-700"
+                                                    onclick="confirmDelete({{ $order->id }}, '{{ route('admin.order.destroy', $order->id) }}')">
                                                     Hapus
                                                 </button>
                                             </div>
@@ -56,8 +78,8 @@
                                     </tr>
                                 @empty
                                     <tr>
-                                        <td colspan="7" class="px-6 py-4 text-sm text-center text-gray-500">
-                                            Tidak ada data
+                                        <td colspan="8" class="px-6 py-4 text-sm text-center text-gray-500">
+                                            Tidak ada data order.
                                         </td>
                                     </tr>
                                 @endforelse
@@ -70,6 +92,7 @@
         </div>
     </div>
 
+    {{-- Script untuk Delete Confirmation tetap sama (sudah benar dan ada CSRF) --}}
     <script>
         function confirmDelete(id, deleteUrl) {
             if (confirm('Apakah Anda yakin ingin menghapus data ini?')) {

@@ -15,11 +15,10 @@ class Order extends Model
         'nama_cus',
         'no_cus',
         'produk_id',
-        'jenis_order',
         'catatan_custom',
         'tanggal_order',
-        'tanggal_booking',
-        'jam_booking',
+        'booking_method',
+        'alamat',
     ];
 
     // Relasi ke Produk

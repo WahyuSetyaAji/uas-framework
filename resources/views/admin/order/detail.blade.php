@@ -16,63 +16,73 @@
                         Kembali
                     </a>
 
+                    <h3 class="mb-4 text-2xl font-bold text-gray-800">Detail Pemesanan #{{ $order->id }}</h3>
+                    <hr class="mb-6">
+
                     {{-- Detail Order sebagai form readonly --}}
-                    <form class="space-y-4 bg-gray-50 border border-gray-200 rounded-lg shadow-sm p-6">
+                    <form class="space-y-6 bg-gray-50 border border-gray-200 rounded-lg shadow-sm p-6">
+
+                        {{-- INFORMASI DASAR --}}
+                        <h4 class="text-lg font-semibold text-gray-700 border-b pb-2">Informasi Dasar</h4>
+
+                        <div class="grid grid-cols-1 gap-4 md:grid-cols-3">
+                            <div class="form-group">
+                                <label for="nama_cus" class="block text-sm font-medium text-gray-700">Nama Customer</label>
+                                <input type="text" id="nama_cus" name="nama_cus" value="{{ $order->nama_cus }}"
+                                    class="block w-full p-2 mt-1 border border-gray-300 rounded-md shadow-sm bg-gray-100"
+                                    disabled>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="no_cus" class="block text-sm font-medium text-gray-700">No. HP / WhatsApp</label>
+                                <input type="text" id="no_cus" name="no_cus" value="{{ $order->no_cus }}"
+                                    class="block w-full p-2 mt-1 border border-gray-300 rounded-md shadow-sm bg-gray-100"
+                                    disabled>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="tanggal_order" class="block text-sm font-medium text-gray-700">Tanggal Order</label>
+                                <input type="text" id="tanggal_order" name="tanggal_order" value="{{ \Carbon\Carbon::parse($order->tanggal_order)->format('d F Y') }}"
+                                    class="block w-full p-2 mt-1 border border-gray-300 rounded-md shadow-sm bg-gray-100"
+                                    disabled>
+                            </div>
+                        </div>
 
                         <div class="form-group">
-                            <label for="nama_cus" class="block text-sm font-medium text-gray-700">Nama Customer</label>
-                            <input type="text" id="nama_cus" name="nama_cus" value="{{ $order->nama_cus }}"
+                            <label for="produk" class="block text-sm font-medium text-gray-700">Model Produk Dipilih</label>
+                            <input type="text" id="produk" name="produk" value="{{ $order->produk->nama_produk ?? 'Produk Dihapus' }}"
                                 class="block w-full p-2 mt-1 border border-gray-300 rounded-md shadow-sm bg-gray-100"
                                 disabled>
                         </div>
 
+                        {{-- INFORMASI PEMESANAN BARU --}}
+                        <h4 class="pt-4 text-lg font-semibold text-gray-700 border-b pb-2">Metode dan Detail Pemesanan</h4>
+
                         <div class="form-group">
-                            <label for="no_cus" class="block text-sm font-medium text-gray-700">No. HP</label>
-                            <input type="text" id="no_cus" name="no_cus" value="{{ $order->no_cus }}"
-                                class="block w-full p-2 mt-1 border border-gray-300 rounded-md shadow-sm bg-gray-100"
+                            <label class="block text-sm font-medium text-gray-700">Metode Pemesanan</label>
+                            <input type="text" value="{{ $order->booking_method == 'tempat' ? 'Pasang Di Tempat' : 'Online' }}"
+                                class="block w-full p-2 mt-1 border border-gray-300 rounded-md shadow-sm bg-gray-100 font-bold {{ $order->booking_method == 'tempat' ? 'text-blue-600' : 'text-green-600' }}"
                                 disabled>
                         </div>
 
-                        <div class="form-group">
-                            <label for="produk" class="block text-sm font-medium text-gray-700">Produk</label>
-                            <input type="text" id="produk" name="produk" value="{{ $order->produk->nama_produk ?? '-' }}"
-                                class="block w-full p-2 mt-1 border border-gray-300 rounded-md shadow-sm bg-gray-100"
-                                disabled>
-                        </div>
+                        {{-- Field Alamat hanya muncul jika metodenya KIRIM --}}
+                        @if ($order->booking_method == 'kirim')
+                            <div class="form-group">
+                                <label for="alamat" class="block text-sm font-medium text-gray-700">Alamat Pengiriman</label>
+                                <textarea id="alamat" name="alamat"
+                                    class="block w-full p-2 mt-1 border border-gray-300 rounded-md shadow-sm bg-gray-100"
+                                    rows="3" disabled>{{ $order->alamat ?? 'Tidak ada alamat tercatat.' }}</textarea>
+                            </div>
+                        @endif
+
+                        {{-- CATATAN --}}
+                        <h4 class="pt-4 text-lg font-semibold text-gray-700 border-b pb-2">Catatan Tambahan</h4>
 
                         <div class="form-group">
-                            <label for="jenis_order" class="block text-sm font-medium text-gray-700">Jenis Order</label>
-                            <input type="text" id="jenis_order" name="jenis_order" value="{{ $order->jenis_order }}"
-                                class="block w-full p-2 mt-1 border border-gray-300 rounded-md shadow-sm bg-gray-100"
-                                disabled>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="catatan_custom" class="block text-sm font-medium text-gray-700">Catatan Custom</label>
+                            <label for="catatan_custom" class="block text-sm font-medium text-gray-700">Catatan Tambahan Customer</label>
                             <textarea id="catatan_custom" name="catatan_custom"
                                 class="block w-full p-2 mt-1 border border-gray-300 rounded-md shadow-sm bg-gray-100"
-                                rows="3" disabled>{{ $order->catatan_custom ?? '-' }}</textarea>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="tanggal_order" class="block text-sm font-medium text-gray-700">Tanggal Order</label>
-                            <input type="date" id="tanggal_order" name="tanggal_order" value="{{ $order->tanggal_order }}"
-                                class="block w-full p-2 mt-1 border border-gray-300 rounded-md shadow-sm bg-gray-100"
-                                disabled>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="tanggal_booking" class="block text-sm font-medium text-gray-700">Tanggal Booking</label>
-                            <input type="date" id="tanggal_booking" name="tanggal_booking" value="{{ $order->tanggal_booking ?? '-' }}"
-                                class="block w-full p-2 mt-1 border border-gray-300 rounded-md shadow-sm bg-gray-100"
-                                disabled>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="jam_booking" class="block text-sm font-medium text-gray-700">Jam Booking</label>
-                            <input type="time" id="jam_booking" name="jam_booking" value="{{ $order->jam_booking ?? '-' }}"
-                                class="block w-full p-2 mt-1 border border-gray-300 rounded-md shadow-sm bg-gray-100"
-                                disabled>
+                                rows="3" disabled>{{ $order->catatan_custom ?? 'Tidak ada catatan tambahan.' }}</textarea>
                         </div>
 
                     </form>
