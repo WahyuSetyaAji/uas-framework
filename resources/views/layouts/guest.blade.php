@@ -12,7 +12,7 @@
     @include('layouts.navigation')
 
     {{-- Main Content (dengan padding-top untuk navbar fixed) --}}
-    <main class="min-h-screen pt-20 pb-10">
+    <main class="min-h-screen">
         {{ $slot }}
     </main>
 

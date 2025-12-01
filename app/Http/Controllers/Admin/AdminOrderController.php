@@ -68,9 +68,9 @@ class AdminOrderController extends Controller
         $deleted = DB::table('order')->where('id', $id)->delete();
 
         if ($deleted) {
-            return redirect()->route('admin.order.index')->with('success', 'Produk berhasil dihapus!');
+            return redirect()->route('admin.order.index')->with('success', 'Order Produk berhasil dihapus!');
         } else {
-            return redirect()->route('admin.order.index')->with('error', 'Produk tidak ditemukan!');
+            return redirect()->route('admin.order.index')->with('error', 'Order Produk tidak ditemukan!');
         }
     }
 }

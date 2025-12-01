@@ -80,15 +80,18 @@ class DatabaseSeeder extends Seeder
         // ==========================================
         // 5. SEED ORDER
         // ==========================================
+        $produkId = DB::table('produk')->where('nama_produk', 'Jok Motor')->value('id');
+
         DB::table('order')->insert([
             'nama_cus' => 'Budi Santoso',
             'no_cus' => '085678123456',
             'produk_id' => $produkId,
-            'jenis_order' => 'paten',
             'catatan_custom' => null,
             'tanggal_order' => Carbon::now()->toDateString(),
-            'tanggal_booking' => Carbon::now()->addDays(5)->toDateString(),
-            'jam_booking' => '09:30:00',
+            'booking_method' => 'tempat',
+            'alamat' => null,
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now(),
         ]);
 
         // ==========================================

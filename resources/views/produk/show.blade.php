@@ -9,7 +9,8 @@
     ============================ --}}
     <style>
         nav {
-            background: rgba(0, 0, 0, 0.8) !important; /* Sedikit lebih gelap agar kontras */
+            background: rgba(0, 0, 0, 0.8) !important;
+            /* Sedikit lebih gelap agar kontras */
             backdrop-filter: blur(20px) !important;
             border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
         }
@@ -19,7 +20,8 @@
         }
 
         nav a:hover {
-            color: #60A5FA !important; /* blue-400 */
+            color: #60A5FA !important;
+            /* blue-400 */
         }
 
         /* Override warna background mobile menu jika dibuka */
@@ -44,10 +46,9 @@
                         <div class="flex items-center gap-4">
                             <div class="p-2 bg-black shadow-lg rounded-xl">
                                 {{-- Pastikan path logo ini benar, jika tidak ada gunakan teks alternatif --}}
-                                <img src="{{ asset('images/galeri/logo/bowojok-logo.jpg') }}"
-                                     alt="Logo"
-                                     class="object-contain w-16 h-16"
-                                     onerror="this.style.display='none'; this.parentElement.innerHTML='<span class=\'text-white font-bold text-2xl px-2\'>BJ</span>'">
+                                <img src="{{ asset('images/galeri/logo/bowojok-logo.jpg') }}" alt="Logo"
+                                    class="object-contain w-16 h-16"
+                                    onerror="this.style.display='none'; this.parentElement.innerHTML='<span class=\'text-white font-bold text-2xl px-2\'>BJ</span>'">
                             </div>
                             <div>
                                 <p class="text-xs tracking-[0.25em] uppercase text-gray-500">
@@ -90,15 +91,15 @@
                     {{-- ========= GAMBAR + ZOOM ========= --}}
                     <div class="relative w-full cursor-pointer group h-fit" onclick="openImageModal()">
 
-                        <img src="{{ asset($produk->gambar_produk) }}"
-                             alt="{{ $produk->nama_produk }}"
-                             class="w-full h-[380px] object-cover rounded-2xl shadow-md transition group-hover:scale-[1.01]">
+                        <img src="{{ asset($produk->gambar_produk) }}" alt="{{ $produk->nama_produk }}"
+                            class="w-full h-[380px] object-cover rounded-2xl shadow-md transition group-hover:scale-[1.01]">
 
                         <!-- Overlay -->
                         <div class="absolute inset-0 transition rounded-2xl bg-black/0 group-hover:bg-black/15"></div>
 
                         <!-- Tooltip -->
-                        <div class="absolute px-3 py-1 text-xs transition bg-white/90 text-gray-800 shadow-md opacity-0 bottom-4 right-4 rounded-lg md:text-sm group-hover:opacity-100">
+                        <div
+                            class="absolute px-3 py-1 text-xs transition bg-white/90 text-gray-800 shadow-md opacity-0 bottom-4 right-4 rounded-lg md:text-sm group-hover:opacity-100">
                             Klik untuk perbesar
                         </div>
                     </div>
@@ -148,7 +149,8 @@
                                 }
                             @endphp
 
-                            <div class="grid grid-cols-1 mb-6 gap-y-2 gap-x-6 text-sm md:text-base text-gray-700 md:grid-cols-2">
+                            <div
+                                class="grid grid-cols-1 mb-6 gap-y-2 gap-x-6 text-sm md:text-base text-gray-700 md:grid-cols-2">
                                 @foreach ($fitur as $item)
                                     <div class="flex items-start gap-2">
                                         <span class="mt-[2px] text-red-500 text-xs">●</span>
@@ -175,10 +177,9 @@
                                 Kembali
                             </a>
 
-                            {{-- Tombol WA Tambahan --}}
-                            <a href="https://wa.me/6281295588338?text=Halo,%20saya%20tertarik%20dengan%20produk%20{{ urlencode($produk->nama_produk) }}"
-                               target="_blank"
-                               class="inline-block px-8 py-3 font-semibold text-white transition bg-green-600 shadow-md rounded-xl hover:bg-green-700">
+                            {{-- Tombol Lanjut ke Form Pemesanan --}}
+                            <a href="{{ route('order.create', ['produk_id' => $produk->id]) }}"
+                                class="inline-block px-8 py-3 font-semibold text-white transition bg-green-600 shadow-md rounded-xl hover:bg-green-700">
                                 Pesan Sekarang
                             </a>
                         </div>
@@ -194,7 +195,8 @@
     {{-- ===================== MODAL FULLSCREEN GAMBAR ===================== --}}
     <div id="imageModal" class="fixed inset-0 z-50 items-center justify-center hidden p-4 bg-black/80 backdrop-blur-sm">
 
-        <button class="absolute text-white transition top-6 right-8 text-4xl hover:text-red-500 focus:outline-none" onclick="closeImageModal()">
+        <button class="absolute text-white transition top-6 right-8 text-4xl hover:text-red-500 focus:outline-none"
+            onclick="closeImageModal()">
             &times;
         </button>
 

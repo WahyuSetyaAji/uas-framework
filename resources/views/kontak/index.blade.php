@@ -3,6 +3,19 @@
         Kontak - Bowo Jok
     </x-slot:title>
 
+    {{-- KODE UNTUK MENAMPILKAN POP-UP/ALERT --}}
+    @if (session('error'))
+        <div class="fixed top-0 left-0 right-0 z-50 p-4 text-center bg-red-600 text-white font-bold shadow-lg">
+            {{ session('error') }}
+        </div>
+        <script>
+            // Script untuk menghilangkan alert setelah 5 detik
+            setTimeout(function() {
+                document.querySelector('.fixed.top-0').style.display = 'none';
+            }, 5000);
+        </script>
+    @endif
+
     <section class="min-h-screen py-20 bg-gradient-to-r from-blue-100 via-white to-red-100">
         <div class="container px-6 mx-auto">
 
@@ -74,7 +87,7 @@
                                 </svg>
                             </a>
 
-                            {{-- Facebook SVG (DIJAMIN MUNCUL) --}}
+                            {{-- Facebook SVG --}}
                             <a href="https://www.facebook.com/galeri.b.jok" target="_blank"
                                 class="transition hover:text-blue-600">
                                 <svg width="28" height="28" fill="currentColor" viewBox="0 0 16 16">
@@ -87,17 +100,12 @@
                     </div>
 
                     {{-- WA BUTTON --}}
-                    <a href="https://wa.me/6281295588338?text=Halo%20Bowo%20Jok,%20saya%20ingin%20bertanya." target="_blank"
+                    <a href="{{ $waLink }}" target="_blank"
                         class="inline-block px-6 py-3 font-semibold text-white transition-transform bg-green-500 rounded-full shadow-lg hover:bg-green-600 hover:scale-105">
                         Hubungi via WhatsApp
                     </a>
-
-
-
                 </div>
-
             </div>
-
         </div>
     </section>
 </x-guest-layout>

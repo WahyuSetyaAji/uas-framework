@@ -16,11 +16,12 @@ return new class extends Migration
             $table->string('nama_cus', 100);
             $table->string('no_cus', 20);
             $table->unsignedBigInteger('produk_id');
-            $table->enum('jenis_order', ['paten', 'custom']);
             $table->text('catatan_custom')->nullable();
             $table->date('tanggal_order')->useCurrent();
-            $table->date('tanggal_booking')->nullable();
-            $table->time('jam_booking')->nullable();
+            $table->enum('booking_method', ['tempat', 'kirim']);
+            $table->text('alamat')->nullable();
+            $table->timestamps();
+
             $table->foreign('produk_id')->references('id')->on('produk')->onDelete('cascade');
         });
     }

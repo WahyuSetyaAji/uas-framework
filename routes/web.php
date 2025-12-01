@@ -8,6 +8,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProdukController;
 use App\Http\Controllers\KontakController;
 use App\Http\Controllers\BlogController;
+use App\Http\Controllers\OrderController;
 
 // Controller untuk Admin
 use App\Http\Controllers\Admin\AdminDashboardController;
@@ -36,6 +37,10 @@ Route::get('/kontak', [KontakController::class, 'index'])->name('kontak.index');
 // Halaman Blog
 Route::get('/blog', [BlogController::class, 'index'])->name('blog.index');
 Route::get('/blog/{slug}', [BlogController::class, 'show'])->name('blog.show');
+
+// Halaman Order
+Route::get('/order/create/{produk_id}', [OrderController::class, 'create'])->name('order.create');
+Route::post('/order/store', [OrderController::class, 'store'])->name('order.store');
 
 
 // =============================
@@ -84,4 +89,4 @@ Route::middleware(['auth', 'verified'])->prefix('admin')->name('admin.')->group(
 });
 
 // Route auth bawaan Laravel Breeze / Jetstream
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
