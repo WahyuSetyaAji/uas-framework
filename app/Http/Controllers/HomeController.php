@@ -13,7 +13,7 @@ class HomeController extends Controller
         $produk = Produk::orderBy('tanggal_ditambahkan', 'desc')->take(6)->get();
 
         // ambil semua testimoni, urutkan dari yang terbaru
-        $testimoni = Testimoni::latest('tanggal_testimoni')->get();
+        $testimoni = Testimoni::latest('tanggal_testimoni')->take(6)->get();
 
         // kirim variabel produk & testimoni ke view welcome.blade.php
         return view('welcome', compact('produk', 'testimoni'));

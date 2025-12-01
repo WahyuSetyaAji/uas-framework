@@ -17,7 +17,7 @@
 
                         {{-- Form untuk tambah testimoni --}}
                         <form action="{{ route('admin.testimoni.store') }}" method="POST"
-                                class="space-y-4 bg-gray-50 border border-gray-200 rounded-lg shadow-sm p-6">
+                            class="space-y-4 bg-gray-50 border border-gray-200 rounded-lg shadow-sm p-6">
                             @csrf
 
                             {{-- Nama Testimoni --}}
@@ -34,10 +34,13 @@
                             {{-- Komentar --}}
                             <div class="form-group">
                                 <label for="komentar" class="block text-sm font-medium text-gray-700">Komentar</label>
+
                                 <textarea id="komentar" name="komentar" rows="3"
                                     class="block w-full p-2 mt-1 border border-gray-300 rounded-md shadow-sm
                                             focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                                     required></textarea>
+
+                                <p id="wordCounter" class="text-sm text-gray-600 mt-1">0 / 100 kata</p>
                             </div>
 
                             {{-- Rating --}}
@@ -84,6 +87,32 @@
                             </div>
                         </form>
                     </div>
+
+                    {{-- Script Batasi 100 Kata --}}
+                    <script>
+                        const textarea = document.getElementById("komentar");
+                        const counter = document.getElementById("wordCounter");
+                        const maxWords = 100;
+
+                        textarea.addEventListener("input", function () {
+                            let words = textarea.value.trim().split(/\s+/).filter(word => word.length > 0);
+
+                            if (words.length > maxWords) {
+                                textarea.value = words.slice(0, maxWords).join(" ");
+                                words = words.slice(0, maxWords);
+                            }
+
+                            counter.textContent = `${words.length} / ${maxWords} kata`;
+
+                            if (words.length >= maxWords) {
+                                counter.classList.remove("text-gray-600");
+                                counter.classList.add("text-red-600", "font-semibold");
+                            } else {
+                                counter.classList.remove("text-red-600", "font-semibold");
+                                counter.classList.add("text-gray-600");
+                            }
+                        });
+                    </script>
 
                     @vite('resources/js/app.js')
                 </div>

@@ -22,7 +22,7 @@
 
                         {{-- Form Edit Testimoni --}}
                         <form action="{{ route('admin.testimoni.update', $testimoni->id) }}" method="POST"
-                                class="space-y-4 bg-gray-50 border border-gray-200 rounded-lg shadow-sm p-6">
+                            class="space-y-4 bg-gray-50 border border-gray-200 rounded-lg shadow-sm p-6">
                             @csrf
                             @method('PUT')
 
@@ -47,6 +47,8 @@
                                     class="block w-full p-2 mt-1 border border-gray-300 rounded-md shadow-sm
                                             focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                                     required>{{ old('komentar', $testimoni->komentar) }}</textarea>
+
+                                <p id="wordCounter" class="text-sm text-gray-600 mt-1">0 / 100 kata</p>
                             </div>
 
                             {{-- Rating --}}
@@ -95,6 +97,37 @@
 
                         </form>
                     </div>
+
+                    {{-- Script Batasi 100 Kata --}}
+                    <script>
+                        const textarea = document.getElementById("komentar");
+                        const counter = document.getElementById("wordCounter");
+                        const maxWords = 100;
+
+                        function updateCounter() {
+                            let words = textarea.value.trim().split(/\s+/).filter(word => word.length > 0);
+
+                            if (words.length > maxWords) {
+                                textarea.value = words.slice(0, maxWords).join(" ");
+                                words = words.slice(0, maxWords);
+                            }
+
+                            counter.textContent = `${words.length} / ${maxWords} kata`;
+
+                            if (words.length >= maxWords) {
+                                counter.classList.remove("text-gray-600");
+                                counter.classList.add("text-red-600", "font-semibold");
+                            } else {
+                                counter.classList.remove("text-red-600", "font-semibold");
+                                counter.classList.add("text-gray-600");
+                            }
+                        }
+
+                        textarea.addEventListener("input", updateCounter);
+
+                        // Panggil sekali saat halaman dimuat
+                        updateCounter();
+                    </script>
 
                     @vite('resources/js/app.js')
                 </div>
