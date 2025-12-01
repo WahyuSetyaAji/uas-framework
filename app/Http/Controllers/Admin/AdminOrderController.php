@@ -6,6 +6,12 @@ use App\Models\Order;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+// excel
+use Maatwebsite\Excel\Facades\Excel;
+// export
+use App\Exports\OrdersExport;
+// import
+use App\Imports\OrdersImport;
 
 
 class AdminOrderController extends Controller
@@ -72,5 +78,13 @@ class AdminOrderController extends Controller
         } else {
             return redirect()->route('admin.order.index')->with('error', 'Order Produk tidak ditemukan!');
         }
+    }
+    
+    /**
+     * Export orders to Excel.
+     */
+    public function export()
+    {
+        return Excel::download(new OrdersExport, 'data-order.xlsx')->deleteFileAfterSend(true);
     }
 }

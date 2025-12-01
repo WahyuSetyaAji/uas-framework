@@ -15,6 +15,25 @@
 
                     <div class="flex items-center justify-between mb-5 bg-gray-50 border border-gray-200 rounded-lg shadow-sm px-4 py-3">
                         <h2 class="text-2xl font-bold">Tabel Order</h2>
+                        {{-- Tombol Import & Export Excel --}}
+                        <div class="flex items-center space-x-3">
+                            {{-- Export Button --}}
+                            <form action="{{ route('admin.order.export') }}" method="POST">
+                                @csrf
+                                <button class="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700">
+                                    Export Excel
+                                </button>
+                            </form>
+                            {{-- Import Form --}}
+                            {{-- <form action="{{ route('admin.order.import') }}" method="POST"
+                                enctype="multipart/form-data" class="flex items-center space-x-2">
+                                @csrf
+                                <input type="file" name="file" class="text-sm border rounded px-2 py-1" required>
+                                <button class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700">
+                                    Import
+                                </button>
+                            </form> --}}
+                        </div>
                     </div>
 
                     <div class="overflow-x-auto border border-gray-200 rounded-lg shadow-sm">

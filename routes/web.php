@@ -78,6 +78,10 @@ Route::middleware(['auth', 'verified'])->prefix('admin')->name('admin.')->group(
     Route::get('order/{id}', [AdminOrderController::class, 'show'])->name('order.show');
     Route::delete('order/{id}', [AdminOrderController::class, 'destroy'])->name('order.destroy');
 
+    // Import & Export Excel (TAMBAHAN)
+    Route::post('order-export', [AdminOrderController::class, 'export'])->name('order.export');
+    // Route::post('order-import', [AdminOrderController::class, 'import'])->name('order.import');
+
     // Kelola Kontak (edit & update info kontak)
     Route::resource('kontak', AdminKontakController::class);
 
