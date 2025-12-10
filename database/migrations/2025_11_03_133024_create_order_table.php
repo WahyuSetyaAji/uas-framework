@@ -20,6 +20,7 @@ return new class extends Migration
             $table->date('tanggal_order')->useCurrent();
             $table->enum('booking_method', ['tempat', 'kirim']);
             $table->text('alamat')->nullable();
+            $table->enum('status_order', ['pending', 'processing', 'completed', 'canceled'])->default('pending');
             $table->timestamps();
 
             $table->foreign('produk_id')->references('id')->on('produk')->onDelete('cascade');

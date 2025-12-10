@@ -31,7 +31,7 @@ class DatabaseSeeder extends Seeder
             'created_at' => Carbon::now(),
         ]);
 
-        // B. Admin Kece (Sesuai request Anda)
+        // B. Admin (Untuk Fitur Admin Biasa)
         User::create([
             'name' => 'Admin',
             'email' => 'admin@example.com',
@@ -77,6 +77,14 @@ class DatabaseSeeder extends Seeder
             'tipe' => 'cs',
         ]);
 
+        DB::table('kontak')->insert([
+            'nama' => 'Admin2',
+            'email_kontak' => 'bowojok2@example.com',
+            'alamat' => 'Jl. Example',
+            'no_kontak' => '081234567890',
+            'tipe' => 'order',
+        ]);
+
         // ==========================================
         // 5. SEED ORDER
         // ==========================================
@@ -89,7 +97,21 @@ class DatabaseSeeder extends Seeder
             'catatan_custom' => null,
             'tanggal_order' => Carbon::now()->toDateString(),
             'booking_method' => 'tempat',
+            'status_order' => 'pending',
             'alamat' => null,
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now(),
+        ]);
+
+        DB::table('order')->insert([
+            'nama_cus' => 'Budi Santosa',
+            'no_cus' => '085678123455',
+            'produk_id' => $produkId,
+            'catatan_custom' => null,
+            'tanggal_order' => Carbon::now()->toDateString(),
+            'booking_method' => 'kirim',
+            'status_order' => 'pending',
+            'alamat' => 'Jl. Merdeka No. 10, Jakarta',
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now(),
         ]);

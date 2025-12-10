@@ -10,8 +10,6 @@ use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Facades\Excel;
 // export
 use App\Exports\OrdersExport;
-// import
-use App\Imports\OrdersImport;
 
 
 class AdminOrderController extends Controller
@@ -79,12 +77,42 @@ class AdminOrderController extends Controller
             return redirect()->route('admin.order.index')->with('error', 'Order Produk tidak ditemukan!');
         }
     }
-    
+
     /**
      * Export orders to Excel.
      */
     public function export()
     {
         return Excel::download(new OrdersExport, 'data-order.xlsx')->deleteFileAfterSend(true);
+    }
+
+    /**
+     * Update the status of a specific order.
+     */
+    public function updateStatus(Request $request, Order $order)
+    {
+        // Memastikan field 'status' ada dan nilainya HANYA salah satu dari enum
+        $validated = $request->validate([
+            'status' => 'required|string|in:pending,processing,completed,canceled',
+        ]);
+
+        try {
+            // Update status order
+            $order->status_order = $validated['status'];
+            $order->save();
+
+            // Respon JSON sukses
+            return response()->json([
+                'message' => 'Status order berhasil diperbarui.',
+                'new_status' => $order->status_order,
+                'order_id' => $order->id,
+            ], 200);
+
+        } catch (\Exception $e) {
+            // Respon JSON jika terjadi error (misalnya gagal simpan ke DB)
+            return response()->json([
+                'message' => 'Gagal memperbarui status order: ' . $e->getMessage(),
+            ], 500);
+        }
     }
 }

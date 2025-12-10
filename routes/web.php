@@ -90,6 +90,11 @@ Route::middleware(['auth', 'verified'])->prefix('admin')->name('admin.')->group(
 
     // Kelola Akun
     Route::resource('users', AdminUserController::class);
+
+    /**
+     * Rute khusus untuk mengupdate status Order.
+     */
+    Route::put('/order/{order}/update-status', [AdminOrderController::class, 'updateStatus'])->name('order.update_status');
 });
 
 // Route auth bawaan Laravel Breeze / Jetstream

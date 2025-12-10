@@ -48,11 +48,30 @@
                             </div>
                         </div>
 
-                        <div class="form-group">
-                            <label for="produk" class="block text-sm font-medium text-gray-700">Model Produk Dipilih</label>
-                            <input type="text" id="produk" name="produk" value="{{ $order->produk->nama_produk ?? 'Produk Dihapus' }}"
-                                class="block w-full p-2 mt-1 border border-gray-300 rounded-md shadow-sm bg-gray-100"
-                                disabled>
+                        <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
+                            <div class="form-group">
+                                <label for="produk" class="block text-sm font-medium text-gray-700">Model Produk Dipilih</label>
+                                <input type="text" id="produk" name="produk" value="{{ $order->produk->nama_produk ?? 'Produk Dihapus' }}"
+                                    class="block w-full p-2 mt-1 border border-gray-300 rounded-md shadow-sm bg-gray-100"
+                                    disabled>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="status_order_view" class="block text-sm font-medium text-gray-700">Status Order</label>
+                                <div class="mt-1 p-2 border border-gray-300 rounded-md shadow-sm bg-gray-100 flex items-center h-10">
+                                    @if ($order->status_order == 'pending')
+                                        <span class="px-2 py-1 text-sm font-semibold text-yellow-800 bg-yellow-200 rounded-full">Menunggu</span>
+                                    @elseif ($order->status_order == 'processing')
+                                        <span class="px-2 py-1 text-sm font-semibold text-blue-800 bg-blue-200 rounded-full">Diproses</span>
+                                    @elseif ($order->status_order == 'completed')
+                                        <span class="px-2 py-1 text-sm font-semibold text-green-800 bg-green-200 rounded-full">Selesai</span>
+                                    @elseif ($order->status_order == 'canceled')
+                                        <span class="px-2 py-1 text-sm font-semibold text-red-800 bg-red-200 rounded-full">Batal</span>
+                                    @else
+                                        <span class="px-2 py-1 text-sm font-semibold text-gray-800 bg-gray-200 rounded-full">Unknown</span>
+                                    @endif
+                                </div>
+                            </div>
                         </div>
 
                         {{-- INFORMASI PEMESANAN BARU --}}

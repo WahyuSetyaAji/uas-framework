@@ -24,13 +24,13 @@ class OrdersExport implements FromCollection, WithHeadings
     public function headings(): array
     {
         return [
-            'nama_cus',
-            'no_cus',
-            'produk_id',
-            'catatan_custom',
-            'tanggal_order',
-            'booking_method',
-            'alamat',
+            'Nama Pelanggan',
+            'Nomor HP',
+            'ID Produk',
+            'Catatan Pelanggan',
+            'Tanggal Order',
+            'Metode Pemesanan',
+            'Alamat Pengiriman',
         ];
     }
 }
