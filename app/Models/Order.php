@@ -19,6 +19,7 @@ class Order extends Model
         'tanggal_order',
         'booking_method',
         'alamat',
+        'status_order',
     ];
 
     // Relasi ke Produk

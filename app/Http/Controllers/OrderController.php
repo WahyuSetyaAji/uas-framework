@@ -51,15 +51,19 @@ class OrderController extends Controller
         // SIMPAN DATA KE DATABASE
         // ===========================================
         $order = Order::create([
+            // Menyimpan Data Pelanggan dan Produk
             'nama_cus'        => $request->nama_cus,
             'no_cus'          => $request->no_cus,
             'produk_id'       => $request->produk_id,
             'catatan_custom'  => $request->catatan_custom,
             'tanggal_order'   => now(),
 
-            // Menyimpan field dinamis
+            // Menyimpan Metoda Pemesanan
             'booking_method'  => $request->booking_method,
             'alamat'          => $request->alamat,
+
+            // Menyimpan status order default
+            'status_order'      => 'pending',
         ]);
 
         // ===========================================
